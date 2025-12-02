@@ -1,0 +1,28 @@
+{
+    "name": "taste-of-malabon-server",
+    "version": "1.0.0",
+    "description": "Backend API for Taste of Malabon",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "dev": "nodemon index.js",
+        "start": "node index.js"
+    },
+    "keywords": [
+        "malabon",
+        "food",
+        "api"
+    ],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.21.1",
+        "mongoose": "^8.8.3",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "axios": "^1.7.9"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.7"
+    }
+}
