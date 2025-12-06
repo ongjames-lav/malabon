@@ -2,56 +2,34 @@
 
 import { motion } from "framer-motion";
 import { MapPin, Search, Store, Star, Phone } from "lucide-react";
-import { useEffect, useState } from "react";
-import { fetchBusinesses } from "@/lib/api";
+import { useState, useMemo } from "react";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+import { businesses as staticBusinesses, type Business } from "@/lib/data";
 
-interface Business {
-    _id: string;
-    name: string;
-    category: string;
-    address: string;
-    rating?: number;
-    description?: string;
-    contact?: {
-        phone?: string;
-    };
-}
+const PlacesMap = dynamic(() => import("@/components/PlacesMap").then((mod) => mod.PlacesMap), {
+    ssr: false,
+    loading: () => <div className="h-[400px] w-full rounded-3xl bg-slate-900/50 animate-pulse border border-white/10" />
+});
 
 export default function PlacesPage() {
-    const [businesses, setBusinesses] = useState<Business[]>([]);
-    const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
 
-    useEffect(() => {
-        loadBusinesses();
-    }, []);
+    const filteredBusinesses = useMemo(() => {
+        if (!searchQuery.trim()) return staticBusinesses;
 
-    async function loadBusinesses() {
-        try {
-            setLoading(true);
-            const response = await fetchBusinesses({ limit: 50 });
-            setBusinesses(response.data || []);
-        } catch (error) {
-            console.error("Failed to load businesses:", error);
-        } finally {
-            setLoading(false);
-        }
-    }
+        const query = searchQuery.toLowerCase();
+        return staticBusinesses.filter(business =>
+            business.name.toLowerCase().includes(query) ||
+            business.category.toLowerCase().includes(query) ||
+            business.address.toLowerCase().includes(query) ||
+            business.description.toLowerCase().includes(query)
+        );
+    }, [searchQuery]);
 
-    async function handleSearch() {
-        try {
-            setLoading(true);
-            const response = await fetchBusinesses({ search: searchQuery, limit: 50 });
-            setBusinesses(response.data || []);
-        } catch (error) {
-            console.error("Failed to search businesses:", error);
-        } finally {
-            setLoading(false);
-        }
-    }
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-24 pb-20">
+        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-20 pb-20">
             {/* Hero Section */}
             <section className="max-w-7xl mx-auto px-6 mb-16">
                 <motion.div
@@ -79,55 +57,42 @@ export default function PlacesPage() {
                             placeholder="Search for restaurants, markets..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                            className="w-full pl-12 pr-4 py-4 glass-dark rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                            className="w-full pl-12 pr-20 py-4 glass-dark rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                         />
-                        <button
-                            onClick={handleSearch}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-primary hover:bg-primary/90 rounded-full font-semibold transition-all"
-                        >
-                            Search
-                        </button>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                            {filteredBusinesses.length} results
+                        </div>
                     </div>
                 </motion.div>
             </section>
 
-            {/* Map Placeholder */}
+            {/* Map Section */}
             <section className="max-w-7xl mx-auto px-6 mb-16">
-                <div className="glass-dark rounded-3xl p-8 border border-white/5">
-                    <div className="flex items-center justify-center h-96 bg-slate-900/50 rounded-2xl border-2 border-dashed border-white/10">
-                        <div className="text-center">
-                            <MapPin className="w-16 h-16 text-accent mx-auto mb-4" />
-                            <h3 className="text-xl font-bold mb-2">Interactive Map</h3>
-                            <p className="text-muted-foreground">
-                                Google Maps integration coming soon
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                    <h2 className="text-2xl font-bold mb-6">Map View</h2>
+                    <PlacesMap businesses={filteredBusinesses} />
+                </motion.div>
             </section>
 
             {/* Places List */}
             <section className="max-w-7xl mx-auto px-6">
                 <h2 className="text-2xl font-bold mb-8">
-                    {loading ? "Loading..." : `${businesses.length} Places Found`}
+                    {filteredBusinesses.length} Places Found
                 </h2>
 
-                {loading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className="glass-dark rounded-2xl h-64 animate-pulse" />
-                        ))}
-                    </div>
-                ) : businesses.length === 0 ? (
+                {filteredBusinesses.length === 0 ? (
                     <div className="text-center py-20">
                         <p className="text-muted-foreground text-lg">No businesses found. Try a different search.</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {businesses.map((place, index) => (
+                        {filteredBusinesses.map((place: Business, index: number) => (
                             <motion.div
-                                key={place._id}
+                                key={place.id}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05 }}
@@ -156,9 +121,12 @@ export default function PlacesPage() {
                                 </div>
 
                                 <div className="flex gap-3">
-                                    <button className="flex-1 px-4 py-2 bg-primary hover:bg-primary/90 rounded-full font-semibold transition-all">
+                                    <Link
+                                        href={`/places/${place.id}`}
+                                        className="flex-1 px-4 py-2 bg-primary hover:bg-primary/90 rounded-full font-semibold transition-all text-center"
+                                    >
                                         View Details
-                                    </button>
+                                    </Link>
                                     {place.contact?.phone && (
                                         <button className="px-4 py-2 glass hover:bg-white/10 rounded-full transition-all">
                                             <Phone className="w-5 h-5" />

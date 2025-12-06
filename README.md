@@ -12,6 +12,20 @@ A modern, animated, editorial-style web application showcasing the culinary heri
 - **HD Images**: High-quality photos from Unsplash and Pexels
 - **Premium UI**: Dark mode, glassmorphism, and smooth animations with Framer Motion
 
+## 📸 Screenshots
+
+### Home
+![Home](/client/public/assets/screenshots/home.png)
+
+### Delicious Foods
+![Foods](/client/public/assets/screenshots/foods.png)
+
+### Places to Visit
+![Places](/client/public/assets/screenshots/places.png)
+
+### Culture & Heritage
+![Culture](/client/public/assets/screenshots/culture.png)
+
 ## 🛠️ Tech Stack
 
 ### Frontend

@@ -39,6 +39,7 @@ const businessSchema = new mongoose.Schema(
             enum: [
                 'Restaurant',
                 'Café',
+                'Cafe',
                 'Bakery',
                 'Street Food',
                 'Beverage Shop',

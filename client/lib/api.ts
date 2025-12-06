@@ -1,4 +1,15 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+// Get API URL - use localhost for same device, allow override for network access
+const getApiUrl = () => {
+    // If running in browser and not on localhost, use the server's IP/hostname
+    if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1')) {
+        // For network access, replace localhost with the server's hostname/IP
+        return `http://${window.location.hostname}:5000/api`;
+    }
+    // For localhost, use the environment variable or default
+    return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+};
+
+export const API_URL = typeof window !== 'undefined' ? getApiUrl() : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api');
 
 export const ENDPOINTS = {
     businesses: `${API_URL}/businesses`,

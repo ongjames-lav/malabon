@@ -42,7 +42,7 @@ const featuredFoods = [
         name: "Crispy Okoy",
         description: "Deep-fried shrimp fritters made with squash or bean sprouts. Best dipped in spicy vinegar.",
         details: "A favorite afternoon snack in Malabon markets.",
-        image: "/assets/images/food/okoy.jpg",
+        image: "/assets/images/food/ukoy.jpg",
         tags: ["Street Food", "Crispy"]
     },
     {

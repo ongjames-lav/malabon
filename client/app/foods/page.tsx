@@ -4,53 +4,26 @@ import { motion } from "framer-motion";
 import { ChefHat, Search, Filter, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { fetchFoods } from "@/lib/api";
-
-interface Food {
-    _id: string;
-    name: string;
-    description: string;
-    image_url?: string;
-    category: string;
-    is_signature?: boolean;
-}
+import { useState, useMemo } from "react";
+import { foods as staticFoods, type Food } from "@/lib/data";
 
 export default function FoodsPage() {
-    const [foods, setFoods] = useState<Food[]>([]);
-    const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
 
-    useEffect(() => {
-        loadFoods();
-    }, []);
+    const filteredFoods = useMemo(() => {
+        if (!searchQuery.trim()) return staticFoods;
 
-    async function loadFoods() {
-        try {
-            setLoading(true);
-            const response = await fetchFoods({ limit: 50 });
-            setFoods(response.data || []);
-        } catch (error) {
-            console.error("Failed to load foods:", error);
-        } finally {
-            setLoading(false);
-        }
-    }
+        const query = searchQuery.toLowerCase();
+        return staticFoods.filter(food =>
+            food.name.toLowerCase().includes(query) ||
+            food.category.toLowerCase().includes(query) ||
+            food.description.toLowerCase().includes(query)
+        );
+    }, [searchQuery]);
 
-    async function handleSearch() {
-        try {
-            setLoading(true);
-            const response = await fetchFoods({ search: searchQuery, limit: 50 });
-            setFoods(response.data || []);
-        } catch (error) {
-            console.error("Failed to search foods:", error);
-        } finally {
-            setLoading(false);
-        }
-    }
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-24 pb-20">
+        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-20 pb-20">
             {/* Hero Section */}
             <section className="max-w-7xl mx-auto px-6 mb-16">
                 <motion.div
@@ -78,15 +51,11 @@ export default function FoodsPage() {
                             placeholder="Search for dishes..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                            className="w-full pl-12 pr-4 py-4 glass-dark rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                            className="w-full pl-12 pr-20 py-4 glass-dark rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                         />
-                        <button
-                            onClick={handleSearch}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-primary hover:bg-primary/90 rounded-full font-semibold transition-all"
-                        >
-                            Search
-                        </button>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                            {filteredFoods.length} results
+                        </div>
                     </div>
                 </motion.div>
             </section>
@@ -95,7 +64,7 @@ export default function FoodsPage() {
             <section className="max-w-7xl mx-auto px-6">
                 <div className="flex items-center justify-between mb-8">
                     <h2 className="text-2xl font-bold">
-                        {loading ? "Loading..." : `${foods.length} Delicacies Found`}
+                        {filteredFoods.length} Delicacies Found
                     </h2>
                     <button className="flex items-center gap-2 px-4 py-2 glass-dark rounded-full hover:bg-white/10 transition-colors">
                         <Filter className="w-4 h-4" />
@@ -103,30 +72,24 @@ export default function FoodsPage() {
                     </button>
                 </div>
 
-                {loading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {[1, 2, 3, 4, 5, 6].map((i) => (
-                            <div key={i} className="glass-dark rounded-3xl h-96 animate-pulse" />
-                        ))}
-                    </div>
-                ) : foods.length === 0 ? (
+                {filteredFoods.length === 0 ? (
                     <div className="text-center py-20">
                         <p className="text-muted-foreground text-lg">No delicacies found. Try a different search.</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {foods.map((food, index) => (
+                        {filteredFoods.map((food: Food, index: number) => (
                             <motion.div
-                                key={food._id}
+                                key={food.id}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05 }}
                                 className="glass-dark rounded-3xl overflow-hidden hover-lift group border border-white/5"
                             >
                                 <div className="relative h-64 overflow-hidden bg-slate-900/50">
-                                    {food.image_url ? (
+                                    {food.images && food.images[0] ? (
                                         <Image
-                                            src={food.image_url}
+                                            src={food.images[0]}
                                             alt={food.name}
                                             fill
                                             className="object-cover group-hover:scale-110 transition-transform duration-700"
@@ -139,7 +102,7 @@ export default function FoodsPage() {
                                     <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-xs font-medium border border-white/10">
                                         {food.category || "Food"}
                                     </div>
-                                    {food.is_signature && (
+                                    {food.isSignature && (
                                         <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-accent/90 backdrop-blur-md text-xs font-bold border border-accent">
                                             Signature
                                         </div>
@@ -151,12 +114,37 @@ export default function FoodsPage() {
                                         <h3 className="text-xl font-bold group-hover:text-accent transition-colors">
                                             {food.name}
                                         </h3>
+                                        {food.price && (
+                                            <span className="text-xs font-semibold text-accent bg-accent/10 px-2 py-1 rounded-full whitespace-nowrap ml-2">
+                                                {food.price}
+                                            </span>
+                                        )}
                                     </div>
-                                    <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                                    <p className="text-muted-foreground text-sm mb-3 line-clamp-3">
                                         {food.description || "A delicious Malabon specialty."}
                                     </p>
+
+                                    {/* Additional Details */}
+                                    {(food.ingredients || food.servingSize) && (
+                                        <div className="space-y-2 mb-4 text-xs">
+                                            {food.servingSize && (
+                                                <div className="flex items-center gap-2 text-muted-foreground">
+                                                    <span className="font-semibold">Serving:</span>
+                                                    <span>{food.servingSize}</span>
+                                                </div>
+                                            )}
+                                            {food.ingredients && food.ingredients.length > 0 && (
+                                                <div className="text-muted-foreground">
+                                                    <span className="font-semibold">Key Ingredients:</span>
+                                                    <span className="ml-1">{food.ingredients.slice(0, 3).join(", ")}</span>
+                                                    {food.ingredients.length > 3 && <span className="text-accent">...</span>}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
                                     <Link
-                                        href={`/foods/${food._id}`}
+                                        href={`/foods/${food.id}`}
                                         className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-semibold"
                                     >
                                         Learn More →

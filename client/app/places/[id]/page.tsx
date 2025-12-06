@@ -7,56 +7,57 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
-import { AIReviewSummary } from "@/components/detail/AIReviewSummary";
+import { businesses, foods, type Business as StaticBusiness, type Food } from "@/lib/data";
 
-interface Business {
-    _id: string;
-    name: string;
-    description?: string;
-    address: string;
-    category: string;
-    rating?: number;
-    images?: string[];
-    contact?: {
-        phone?: string;
-    };
-    social_links?: {
-        website?: string;
-    };
-    reviews_summary?: string;
-    menu_items?: Array<{
-        _id: string;
-        name: string;
-        description: string;
-        image_url?: string;
-    }>;
+interface Business extends StaticBusiness {
+    menu_items_full?: Food[];
 }
 
 export default function BusinessDetailPage() {
     const params = useParams();
     const [business, setBusiness] = useState<Business | null>(null);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         loadBusiness();
     }, [params.id]);
 
-    async function loadBusiness() {
+    function loadBusiness() {
         try {
-            setLoading(true);
-            const response = await fetch(`http://localhost:5000/api/businesses/${params.id}`);
-            if (!response.ok) throw new Error('Business not found');
-            const data = await response.json();
-            setBusiness(data.data);
+            const foundBusiness = businesses.find(b => b.id === params.id);
+            if (!foundBusiness) {
+                setError('Business not found');
+                return;
+            }
+
+            // Resolve menu items
+            const menu_items_full = foundBusiness.menu_items
+                .map(foodId => foods.find(f => f.id === foodId))
+                .filter((f): f is Food => f !== undefined);
+
+            setBusiness({ ...foundBusiness, menu_items_full });
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to load business');
-        } finally {
-            setLoading(false);
         }
     }
 
-    if (loading) {
+    if (error) {
+        return (
+            <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-24 pb-20">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="text-center py-20">
+                        <h1 className="text-3xl font-bold mb-4">Business Not Found</h1>
+                        <p className="text-muted-foreground mb-8">{error}</p>
+                        <Link href="/places" className="px-6 py-3 bg-primary hover:bg-primary/90 rounded-full font-semibold transition-all inline-block">
+                            Back to Places
+                        </Link>
+                    </div>
+                </div>
+            </main>
+        );
+    }
+
+    if (!business) {
         return (
             <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-24 pb-20">
                 <div className="max-w-7xl mx-auto px-6">
@@ -89,7 +90,7 @@ export default function BusinessDetailPage() {
     return (
         <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
             {/* Hero Section */}
-            <section className="relative h-[50vh] min-h-[400px] overflow-hidden">
+            <section className="relative min-h-screen overflow-hidden">
                 {/* Background Image */}
                 <div className="absolute inset-0">
                     {coverImage ? (
@@ -109,11 +110,11 @@ export default function BusinessDetailPage() {
                 </div>
 
                 {/* Content */}
-                <div className="relative h-full max-w-7xl mx-auto px-6 flex flex-col justify-end pb-12">
+                <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col justify-start md:justify-end min-h-screen pb-8 sm:pb-12 pt-24 sm:pt-28 md:pb-12 md:pt-0">
                     {/* Breadcrumb */}
                     <Link
                         href="/places"
-                        className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 w-fit"
+                        className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 sm:mb-12 w-fit"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         <span>Back to Places</span>
@@ -125,6 +126,15 @@ export default function BusinessDetailPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
+                        <h1 className="text-5xl md:text-7xl font-display font-bold mb-6">
+                            <span className="text-gradient">{business.name}</span>
+                        </h1>
+
+                        <div className="flex items-center gap-2 text-gray-200 mb-6">
+                            <MapPin className="w-5 h-5 text-accent" />
+                            <span className="text-lg">{business.address}</span>
+                        </div>
+
                         <div className="flex flex-wrap items-center gap-3 mb-4">
                             <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-sm font-medium border border-white/20">
                                 {business.category}
@@ -137,15 +147,6 @@ export default function BusinessDetailPage() {
                             )}
                         </div>
 
-                        <h1 className="text-5xl md:text-7xl font-display font-bold mb-6">
-                            <span className="text-gradient">{business.name}</span>
-                        </h1>
-
-                        <div className="flex items-center gap-2 text-gray-200 mb-4">
-                            <MapPin className="w-5 h-5 text-accent" />
-                            <span className="text-lg">{business.address}</span>
-                        </div>
-
                         {/* Action Buttons */}
                         <div className="flex flex-wrap gap-3">
                             {business.contact?.phone && (
@@ -155,17 +156,6 @@ export default function BusinessDetailPage() {
                                 >
                                     <Phone className="w-4 h-4" />
                                     Call
-                                </a>
-                            )}
-                            {business.social_links?.website && (
-                                <a
-                                    href={business.social_links.website}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-6 py-3 glass hover:bg-white/20 rounded-full font-semibold transition-all flex items-center gap-2"
-                                >
-                                    <Globe className="w-4 h-4" />
-                                    Website
                                 </a>
                             )}
                             <a
@@ -202,20 +192,10 @@ export default function BusinessDetailPage() {
                             </motion.div>
                         )}
 
-                        {/* AI Review Summary */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.25 }}
-                        >
-                            <AIReviewSummary
-                                businessId={business._id}
-                                initialSummary={business.reviews_summary}
-                            />
-                        </motion.div>
+
 
                         {/* Menu Items */}
-                        {business.menu_items && business.menu_items.length > 0 && (
+                        {business.menu_items_full && business.menu_items_full.length > 0 && (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -227,16 +207,16 @@ export default function BusinessDetailPage() {
                                     Menu Highlights
                                 </h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {business.menu_items.map((item) => (
+                                    {business.menu_items_full.map((item) => (
                                         <Link
-                                            key={item._id}
-                                            href={`/foods/${item._id}`}
+                                            key={item.id}
+                                            href={`/foods/${item.id}`}
                                             className="flex gap-4 p-4 rounded-2xl hover:bg-white/5 transition-colors group"
                                         >
-                                            {item.image_url && (
+                                            {item.images && item.images[0] && (
                                                 <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
                                                     <Image
-                                                        src={item.image_url}
+                                                        src={item.images[0]}
                                                         alt={item.name}
                                                         fill
                                                         className="object-cover group-hover:scale-110 transition-transform duration-300"
@@ -275,6 +255,31 @@ export default function BusinessDetailPage() {
                                     <MapPin className="w-5 h-5 text-accent mt-1" />
                                     <span>{business.address}</span>
                                 </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Opening Hours */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.45 }}
+                            className="glass-dark p-6 rounded-3xl"
+                        >
+                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                <Clock className="w-5 h-5 text-accent" />
+                                Opening Hours
+                            </h3>
+                            <div className="space-y-2">
+                                {business.opening_hours ? (
+                                    Object.entries(business.opening_hours).map(([day, hours]) => (
+                                        <div key={day} className="flex justify-between text-sm">
+                                            <span className="text-muted-foreground capitalize">{day}</span>
+                                            <span className="font-medium">{hours as string}</span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-muted-foreground text-sm">Hours not available</p>
+                                )}
                             </div>
                         </motion.div>
 

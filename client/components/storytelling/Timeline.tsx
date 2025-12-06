@@ -24,9 +24,9 @@ export function Timeline({ events }: TimelineProps) {
     const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
     return (
-        <div ref={ref} className="relative py-20">
+        <div ref={ref} className="relative py-20 w-full overflow-x-hidden">
             {/* Vertical Line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-white/10 -translate-x-1/2">
+            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-white/10 -translate-x-1/2 z-0 pointer-events-none">
                 <motion.div
                     style={{ height: lineHeight }}
                     className="w-full bg-gradient-to-b from-accent to-primary"
@@ -34,7 +34,7 @@ export function Timeline({ events }: TimelineProps) {
             </div>
 
             {/* Events */}
-            <div className="space-y-24">
+            <div className="space-y-16 md:space-y-24 relative z-10">
                 {events.map((event, index) => (
                     <motion.div
                         key={index}
@@ -42,11 +42,11 @@ export function Timeline({ events }: TimelineProps) {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.8, delay: index * 0.1 }}
-                        className={`relative flex items-center ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"
+                        className={`relative flex gap-4 md:gap-0 ${index % 2 === 0 ? "md:flex-row flex-col" : "md:flex-row-reverse flex-col"
                             }`}
                     >
                         {/* Content */}
-                        <div className={`w-5/12 ${index % 2 === 0 ? "text-right pr-12" : "text-left pl-12"}`}>
+                        <div className={`w-full md:w-5/12 z-10 ${index % 2 === 0 ? "md:text-right md:pr-12" : "md:text-left md:pl-12"}`}>
                             <div className="glass-dark p-6 rounded-2xl hover-lift">
                                 <div className="text-accent font-bold text-sm mb-2 flex items-center gap-2 justify-end">
                                     <Calendar className="w-4 h-4" />
@@ -57,17 +57,26 @@ export function Timeline({ events }: TimelineProps) {
                             </div>
                         </div>
 
-                        {/* Center Dot */}
+                        {/* Desktop Dot */}
                         <motion.div
                             initial={{ scale: 0 }}
                             whileInView={{ scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                            className="absolute left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-gradient-to-br from-accent to-primary border-4 border-slate-950 z-10"
+                            className="hidden md:block absolute left-1/2 top-8 -translate-x-1/2 w-6 h-6 rounded-full bg-gradient-to-br from-accent to-primary border-4 border-slate-950 z-20"
+                        />
+
+                        {/* Mobile Dot - Position Left */}
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            whileInView={{ scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
+                            className="md:hidden w-3 h-3 rounded-full bg-gradient-to-br from-accent to-primary border-2 border-slate-950 z-20 flex-shrink-0 mt-2"
                         />
 
                         {/* Spacer */}
-                        <div className="w-5/12" />
+                        <div className="hidden md:block w-5/12" />
                     </motion.div>
                 ))}
             </div>

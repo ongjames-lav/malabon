@@ -5,6 +5,7 @@ import { BookOpen, Landmark, Calendar, Users, Fish, Church, Utensils } from "luc
 import { ParallaxSection } from "@/components/storytelling/ParallaxSection";
 import { TextReveal } from "@/components/storytelling/TextReveal";
 import { Timeline } from "@/components/storytelling/Timeline";
+import { culturalStories } from "@/lib/data";
 
 const culturalHighlights = [
     {
@@ -97,10 +98,10 @@ const timelineEvents = [
 
 export default function CulturePage() {
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-x-hidden w-full">
             {/* Hero Section with Parallax */}
             <ParallaxSection
-                className="min-h-screen flex items-center justify-center pt-20"
+                className="min-h-screen flex items-center justify-center pt-20 relative z-0"
                 speed={0.3}
             >
                 <div className="max-w-7xl mx-auto px-6 text-center">
@@ -127,7 +128,7 @@ export default function CulturePage() {
             </ParallaxSection>
 
             {/* Cultural Highlights */}
-            <section className="max-w-7xl mx-auto px-6 py-20">
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
                 <TextReveal>
                     <h2 className="text-4xl font-bold mb-12 text-center">Explore Our Heritage</h2>
                 </TextReveal>
@@ -157,7 +158,7 @@ export default function CulturePage() {
             </section>
 
             {/* Timeline Section */}
-            <section className="max-w-5xl mx-auto px-6 py-20">
+            <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 w-full">
                 <TextReveal>
                     <div className="text-center mb-12">
                         <h2 className="text-4xl font-bold mb-4">Journey Through Time</h2>
@@ -170,63 +171,60 @@ export default function CulturePage() {
                 <Timeline events={timelineEvents} />
             </section>
 
-            {/* Featured Story with Parallax */}
-            <ParallaxSection
-                className="py-32"
-                speed={0.4}
-            >
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="glass rounded-[2.5rem] overflow-hidden border border-white/5">
-                        <div className="grid md:grid-cols-2 gap-0">
-                            <div className="p-12 flex flex-col justify-center">
-                                <TextReveal>
-                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-6 w-fit">
-                                        <span className="text-xs font-semibold text-accent">Featured Story</span>
+            {/* Cultural Stories Section */}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+                <TextReveal>
+                    <div className="text-center mb-12">
+                        <h2 className="text-4xl font-bold mb-4">Cultural Stories</h2>
+                        <p className="text-muted-foreground text-lg">
+                            Discover the legends, traditions, and heritage that define Malabon
+                        </p>
+                    </div>
+                </TextReveal>
+
+                <div className="grid md:grid-cols-3 gap-8">
+                    {culturalStories.map((story, index) => (
+                        <TextReveal key={story.id} delay={index * 0.2}>
+                            <div className="glass-dark rounded-3xl overflow-hidden hover-lift border border-white/5 group h-full">
+                                <div className="relative h-64 overflow-hidden">
+                                    <img
+                                        src={story.image}
+                                        alt={story.title}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
+                                    <div className="absolute top-4 left-4">
+                                        <span className="px-3 py-1 rounded-full bg-accent/20 border border-accent/30 text-xs font-semibold text-accent">
+                                            {story.type}
+                                        </span>
                                     </div>
-                                </TextReveal>
-
-                                <TextReveal delay={0.2}>
-                                    <h2 className="text-4xl font-display font-bold mb-6">
-                                        The Birth of <span className="text-gradient">Pancit Malabon</span>
-                                    </h2>
-                                </TextReveal>
-
-                                <TextReveal delay={0.4}>
-                                    <p className="text-muted-foreground text-lg leading-relaxed mb-4">
-                                        Legend has it that Pancit Malabon was created by Chinese immigrants who settled
-                                        in the fishing town. They combined thick rice noodles with the abundant seafood
-                                        from Manila Bay, creating a dish that would become synonymous with Malabon itself.
+                                </div>
+                                <div className="p-6">
+                                    <h3 className="text-2xl font-bold mb-3 group-hover:text-gradient transition-all">
+                                        {story.title}
+                                    </h3>
+                                    <p className="text-muted-foreground leading-relaxed mb-4">
+                                        {story.content}
                                     </p>
-                                </TextReveal>
-
-                                <TextReveal delay={0.6}>
-                                    <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-                                        The dish's distinctive orange color comes from achuete (annatto seeds), while the
-                                        toppings of chicharrón, tinapa flakes, and hard-boiled eggs reflect the resourcefulness
-                                        of Malabon's fishing community.
-                                    </p>
-                                </TextReveal>
-
-                                <TextReveal delay={0.8}>
-                                    <button className="px-8 py-4 bg-primary hover:bg-primary/90 rounded-full font-semibold transition-all hover-lift w-fit">
-                                        Read Full Story
-                                    </button>
-                                </TextReveal>
-                            </div>
-
-                            <div className="relative h-[400px] md:h-auto bg-slate-900/50 flex items-center justify-center">
-                                <div className="text-center p-8">
-                                    <Utensils className="w-20 h-20 text-accent/30 mx-auto mb-4" />
-                                    <p className="text-muted-foreground">Pancit Malabon Story Image</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {story.tags.map((tag) => (
+                                            <span
+                                                key={tag}
+                                                className="px-2 py-1 rounded-full bg-white/5 text-xs text-muted-foreground"
+                                            >
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </TextReveal>
+                    ))}
                 </div>
-            </ParallaxSection>
+            </section>
 
             {/* Fishing Heritage Section */}
-            <section className="max-w-7xl mx-auto px-6 py-20">
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 mb-20">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <TextReveal direction="left">
                         <div>
@@ -249,10 +247,22 @@ export default function CulturePage() {
                     </TextReveal>
 
                     <TextReveal direction="right" delay={0.3}>
-                        <div className="relative h-96 rounded-3xl overflow-hidden bg-slate-900/50 border-2 border-dashed border-white/10 flex items-center justify-center">
-                            <div className="text-center">
-                                <Fish className="w-20 h-20 text-accent/30 mx-auto mb-4" />
-                                <p className="text-muted-foreground">Fishing Heritage Image</p>
+                        <div className="relative h-96 rounded-3xl overflow-hidden hover-lift border border-white/5 group">
+                            <img
+                                src="/assets/images/fishing-heritage.jpg"
+                                alt="Malabon Fishing Heritage"
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
+                            <div className="absolute bottom-0 left-0 p-8">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 border border-accent/30 text-xs font-semibold text-accent mb-4">
+                                    <Fish className="w-3 h-3" />
+                                    <span>Maritime History</span>
+                                </div>
+                                <h3 className="text-2xl font-bold mb-2">The Fishing Capital</h3>
+                                <p className="text-muted-foreground text-sm max-w-md">
+                                    Discover why Malabon is known as the Venice of the Philippines
+                                </p>
                             </div>
                         </div>
                     </TextReveal>

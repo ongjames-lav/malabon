@@ -1,73 +1,38 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, Star, ChefHat, MapPin, History, Sparkles } from "lucide-react";
+import { ArrowLeft, Star, ChefHat, MapPin, History, Sparkles, UtensilsCrossed } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-
-interface Food {
-    _id: string;
-    name: string;
-    description: string;
-    history?: string;
-    category: string;
-    is_signature?: boolean;
-    image_url?: string;
-    ingredients?: string[];
-    cultural_significance?: string;
-    businesses?: Array<{
-        _id: string;
-        name: string;
-        address: string;
-    }>;
-}
+import { foods, businesses, type Food, type Business } from "@/lib/data";
 
 export default function FoodDetailPage() {
     const params = useParams();
     const [food, setFood] = useState<Food | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [relatedBusinesses, setRelatedBusinesses] = useState<Business[]>([]);
 
     useEffect(() => {
-        loadFood();
+        // Find the food by ID from static data
+        const foundFood = foods.find(f => f.id === params.id);
+        setFood(foundFood || null);
+
+        // Find businesses that serve this food
+        if (foundFood) {
+            const bizWithFood = businesses.filter(b =>
+                b.menu_items.includes(foundFood.id)
+            );
+            setRelatedBusinesses(bizWithFood);
+        }
     }, [params.id]);
 
-    async function loadFood() {
-        try {
-            setLoading(true);
-            const response = await fetch(`http://localhost:5000/api/foods/${params.id}`);
-            if (!response.ok) throw new Error('Food not found');
-            const data = await response.json();
-            setFood(data.data);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to load food');
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    if (loading) {
-        return (
-            <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-24 pb-20">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="animate-pulse">
-                        <div className="h-96 bg-slate-800 rounded-3xl mb-8" />
-                        <div className="h-12 bg-slate-800 rounded w-1/2 mb-4" />
-                        <div className="h-6 bg-slate-800 rounded w-3/4" />
-                    </div>
-                </div>
-            </main>
-        );
-    }
-
-    if (error || !food) {
+    if (!food) {
         return (
             <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-24 pb-20">
                 <div className="max-w-7xl mx-auto px-6 text-center">
                     <h1 className="text-4xl font-bold mb-4">Food Not Found</h1>
-                    <p className="text-muted-foreground mb-8">{error || 'This delicacy does not exist.'}</p>
+                    <p className="text-muted-foreground mb-8">This delicacy does not exist.</p>
                     <Link href="/foods" className="px-6 py-3 bg-primary hover:bg-primary/90 rounded-full font-semibold transition-all inline-block">
                         Back to Foods
                     </Link>
@@ -79,12 +44,12 @@ export default function FoodDetailPage() {
     return (
         <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
             {/* Hero Section */}
-            <section className="relative h-[60vh] min-h-[500px] overflow-hidden">
+            <section className="relative min-h-screen overflow-hidden">
                 {/* Background Image */}
                 <div className="absolute inset-0">
-                    {food.image_url ? (
+                    {food.images && food.images[0] ? (
                         <Image
-                            src={food.image_url}
+                            src={food.images[0]}
                             alt={food.name}
                             fill
                             className="object-cover"
@@ -99,11 +64,11 @@ export default function FoodDetailPage() {
                 </div>
 
                 {/* Content */}
-                <div className="relative h-full max-w-7xl mx-auto px-6 flex flex-col justify-end pb-12">
+                <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col justify-start md:justify-end min-h-screen pb-8 sm:pb-12 pt-24 sm:pt-28 md:pb-12 md:pt-0">
                     {/* Breadcrumb */}
                     <Link
                         href="/foods"
-                        className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 w-fit"
+                        className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 sm:mb-12 w-fit"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         <span>Back to Delicacies</span>
@@ -115,25 +80,37 @@ export default function FoodDetailPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
+                        <h1 className="text-5xl md:text-7xl font-display font-bold mb-6">
+                            <span className="text-gradient">{food.name}</span>
+                        </h1>
+
+                        <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mb-6">
+                            {food.description}
+                        </p>
+
                         <div className="flex flex-wrap items-center gap-3 mb-4">
                             <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-sm font-medium border border-white/20">
                                 {food.category}
                             </span>
-                            {food.is_signature && (
+                            {food.isSignature && (
                                 <span className="px-4 py-1.5 rounded-full bg-accent/90 backdrop-blur-md text-sm font-bold border border-accent flex items-center gap-2">
                                     <Star className="w-4 h-4 fill-current" />
                                     Signature Dish
                                 </span>
                             )}
+                            {food.price && (
+                                <span className="px-4 py-1.5 rounded-full bg-green-500/20 backdrop-blur-md text-sm font-semibold border border-green-500/30 flex items-center gap-2">
+                                    {food.price}
+                                </span>
+                            )}
                         </div>
 
-                        <h1 className="text-5xl md:text-7xl font-display font-bold mb-6">
-                            <span className="text-gradient">{food.name}</span>
-                        </h1>
-
-                        <p className="text-xl md:text-2xl text-gray-200 max-w-3xl">
-                            {food.description}
-                        </p>
+                        {food.servingSize && (
+                            <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10">
+                                <UtensilsCrossed className="w-4 h-4 text-accent" />
+                                <span className="text-sm text-muted-foreground">Serving: {food.servingSize}</span>
+                            </div>
+                        )}
                     </motion.div>
                 </div>
             </section>
@@ -163,8 +140,8 @@ export default function FoodDetailPage() {
                             </motion.div>
                         )}
 
-                        {/* Cultural Significance */}
-                        {food.cultural_significance && (
+                        {/* Best Paired With */}
+                        {food.bestPairedWith && (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -175,50 +152,10 @@ export default function FoodDetailPage() {
                                     <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
                                         <Sparkles className="w-6 h-6 text-primary" />
                                     </div>
-                                    <h2 className="text-3xl font-bold">Cultural Significance</h2>
+                                    <h2 className="text-3xl font-bold">Best Paired With</h2>
                                 </div>
                                 <p className="text-muted-foreground text-lg leading-relaxed">
-                                    {food.cultural_significance}
-                                </p>
-                            </motion.div>
-                        )}
-
-                        {/* Cooking Instructions */}
-                        {food.cooking_instructions && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.4 }}
-                                className="glass-dark p-8 rounded-3xl"
-                            >
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center">
-                                        <ChefHat className="w-6 h-6 text-green-500" />
-                                    </div>
-                                    <h2 className="text-3xl font-bold">How to Cook</h2>
-                                </div>
-                                <p className="text-muted-foreground text-lg leading-relaxed">
-                                    {food.cooking_instructions}
-                                </p>
-                            </motion.div>
-                        )}
-
-                        {/* Where to Buy */}
-                        {food.where_to_buy && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5 }}
-                                className="glass-dark p-8 rounded-3xl"
-                            >
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center">
-                                        <MapPin className="w-6 h-6 text-orange-500" />
-                                    </div>
-                                    <h2 className="text-3xl font-bold">Where to Buy</h2>
-                                </div>
-                                <p className="text-muted-foreground text-lg leading-relaxed">
-                                    {food.where_to_buy}
+                                    {food.bestPairedWith}
                                 </p>
                             </motion.div>
                         )}
@@ -253,7 +190,7 @@ export default function FoodDetailPage() {
                         )}
 
                         {/* Where to Find */}
-                        {food.businesses && food.businesses.length > 0 && (
+                        {relatedBusinesses && relatedBusinesses.length > 0 && (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -265,10 +202,10 @@ export default function FoodDetailPage() {
                                     Where to Find
                                 </h3>
                                 <div className="space-y-3">
-                                    {food.businesses.map((business) => (
+                                    {relatedBusinesses.map((business) => (
                                         <Link
-                                            key={business._id}
-                                            href={`/places/${business._id}`}
+                                            key={business.id}
+                                            href={`/places/${business.id}`}
                                             className="block p-3 rounded-xl hover:bg-white/5 transition-colors"
                                         >
                                             <p className="font-semibold">{business.name}</p>

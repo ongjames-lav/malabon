@@ -26,12 +26,12 @@ export function ParallaxSection({
     const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
     return (
-        <div ref={ref} className={`relative overflow-hidden ${className}`}>
+        <div ref={ref} className={`relative overflow-x-hidden w-full ${className}`}>
             {/* Background Layer with Parallax */}
             {backgroundImage && (
                 <motion.div
                     style={{ y }}
-                    className="absolute inset-0 -z-10"
+                    className="absolute inset-0 -z-20 pointer-events-none"
                 >
                     <div
                         className="absolute inset-0 bg-cover bg-center scale-110"
@@ -42,7 +42,7 @@ export function ParallaxSection({
             )}
 
             {/* Content Layer */}
-            <motion.div style={{ opacity }} className="relative z-10">
+            <motion.div style={{ opacity }} className="relative z-0">
                 {children}
             </motion.div>
         </div>

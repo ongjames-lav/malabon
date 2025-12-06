@@ -25,6 +25,8 @@ export const metadata: Metadata = {
     },
 };
 
+export const viewport = "width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes";
+
 import { Navbar } from "@/components/Navbar";
 
 export default function RootLayout({
@@ -33,8 +35,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="dark">
-            <body className={`${inter.variable} ${outfit.variable} font-sans antialiased`}>
+        <html lang="en" className="dark overflow-x-hidden w-full">
+            <body className={`${inter.variable} ${outfit.variable} font-sans antialiased overflow-x-hidden w-full`}>
                 <Navbar />
                 {children}
             </body>
