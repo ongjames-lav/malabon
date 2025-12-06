@@ -15,16 +15,16 @@ A modern, animated, editorial-style web application showcasing the culinary heri
 ## 📸 Screenshots
 
 ### Home
-![Home](/client/public/assets/screenshots/home.png)
+![Home](client/public/assets/screenshots/home.png)
 
 ### Delicious Foods
-![Foods](/client/public/assets/screenshots/foods.png)
+![Foods](client/public/assets/screenshots/foods.png)
 
 ### Places to Visit
-![Places](/client/public/assets/screenshots/places.png)
+![Places](client/public/assets/screenshots/places.png)
 
 ### Culture & Heritage
-![Culture](/client/public/assets/screenshots/culture.png)
+![Culture](client/public/assets/screenshots/culture.png)
 
 ## 🛠️ Tech Stack
 
