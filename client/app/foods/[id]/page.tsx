@@ -42,7 +42,7 @@ export default function FoodDetailPage() {
     }
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+        <main className="min-h-screen bg-background">
             {/* Hero Section */}
             <section className="relative min-h-screen overflow-hidden">
                 {/* Background Image */}
@@ -56,11 +56,11 @@ export default function FoodDetailPage() {
                             priority
                         />
                     ) : (
-                        <div className="w-full h-full bg-slate-900 flex items-center justify-center">
+                        <div className="w-full h-full bg-muted flex items-center justify-center">
                             <ChefHat className="w-32 h-32 text-accent/30" />
                         </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/40" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
                 </div>
 
                 {/* Content */}
@@ -84,7 +84,7 @@ export default function FoodDetailPage() {
                             <span className="text-gradient">{food.name}</span>
                         </h1>
 
-                        <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mb-6">
+                        <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mb-6">
                             {food.description}
                         </p>
 
@@ -126,7 +126,7 @@ export default function FoodDetailPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
-                                className="glass-dark p-8 rounded-3xl"
+                                className="glass p-8 rounded-3xl"
                             >
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center">
@@ -146,7 +146,7 @@ export default function FoodDetailPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.3 }}
-                                className="glass-dark p-8 rounded-3xl"
+                                className="glass p-8 rounded-3xl"
                             >
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
@@ -169,7 +169,7 @@ export default function FoodDetailPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.4 }}
-                                className="glass-dark p-6 rounded-3xl"
+                                className="glass p-6 rounded-3xl"
                             >
                                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                                     <ChefHat className="w-5 h-5 text-accent" />
@@ -195,7 +195,7 @@ export default function FoodDetailPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.5 }}
-                                className="glass-dark p-6 rounded-3xl"
+                                className="glass p-6 rounded-3xl"
                             >
                                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                                     <MapPin className="w-5 h-5 text-accent" />

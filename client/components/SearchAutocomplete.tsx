@@ -55,7 +55,7 @@ export function SearchAutocomplete() {
 
             // Search foods
             const foodResults = foods
-                .filter(food => 
+                .filter(food =>
                     food.name.toLowerCase().includes(query) ||
                     food.description.toLowerCase().includes(query) ||
                     food.category.toLowerCase().includes(query)
@@ -120,7 +120,7 @@ export function SearchAutocomplete() {
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={handleKeyDown}
                     onFocus={() => query.length >= 2 && setIsOpen(true)}
-                    className="block w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-full text-sm sm:text-base text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-white/20 transition-all shadow-lg"
+                    className="block w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-4 bg-white/10 dark:bg-white/5 backdrop-blur-md border border-neutral-200/20 dark:border-white/10 rounded-full text-sm sm:text-base text-neutral-800 dark:text-white placeholder-neutral-500/70 dark:placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-white/20 dark:focus:bg-white/10 transition-all shadow-lg"
                     placeholder="Search delicacies, restaurants..."
                 />
                 {query && (

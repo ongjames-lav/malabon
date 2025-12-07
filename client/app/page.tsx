@@ -10,7 +10,7 @@ import { SearchAutocomplete } from "@/components/SearchAutocomplete";
 
 export default function HomePage() {
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+        <main className="min-h-screen bg-background">
             {/* Hero Section */}
             <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20 pb-16 sm:pb-32 px-4 sm:px-6">
                 {/* ... background elements ... */}

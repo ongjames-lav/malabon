@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -50,6 +51,8 @@ export function Navbar() {
 
                 {/* Actions */}
                 <div className="flex items-center gap-3">
+                    <ThemeToggle />
+
                     {/* Mobile Menu Button */}
                     <button
                         className="md:hidden p-2 hover:bg-white/10 rounded-full transition-colors relative z-50"

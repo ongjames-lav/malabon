@@ -23,7 +23,7 @@ export default function FoodsPage() {
 
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-20 pb-20">
+        <main className="min-h-screen bg-background pt-20 pb-20">
             {/* Hero Section */}
             <section className="max-w-7xl mx-auto px-6 mb-16">
                 <motion.div
@@ -51,7 +51,7 @@ export default function FoodsPage() {
                             placeholder="Search for dishes..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-12 pr-20 py-4 glass-dark rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                            className="w-full pl-12 pr-20 py-4 glass rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                         />
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
                             {filteredFoods.length} results
@@ -66,7 +66,7 @@ export default function FoodsPage() {
                     <h2 className="text-2xl font-bold">
                         {filteredFoods.length} Delicacies Found
                     </h2>
-                    <button className="flex items-center gap-2 px-4 py-2 glass-dark rounded-full hover:bg-white/10 transition-colors">
+                    <button className="flex items-center gap-2 px-4 py-2 glass rounded-full hover:bg-white/10 transition-colors">
                         <Filter className="w-4 h-4" />
                         <span className="text-sm">Filter</span>
                     </button>
@@ -84,9 +84,9 @@ export default function FoodsPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05 }}
-                                className="glass-dark rounded-3xl overflow-hidden hover-lift group border border-white/5"
+                                className="glass rounded-3xl overflow-hidden hover-lift group border border-white/5"
                             >
-                                <div className="relative h-64 overflow-hidden bg-slate-900/50">
+                                <div className="relative h-64 overflow-hidden bg-muted">
                                     {food.images && food.images[0] ? (
                                         <Image
                                             src={food.images[0]}
@@ -99,11 +99,11 @@ export default function FoodsPage() {
                                             <ChefHat className="w-16 h-16 text-accent/30" />
                                         </div>
                                     )}
-                                    <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-xs font-medium border border-white/10">
+                                    <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/90 dark:bg-black/50 backdrop-blur-md text-xs font-medium border border-black/10 dark:border-white/10 text-foreground dark:text-white">
                                         {food.category || "Food"}
                                     </div>
                                     {food.isSignature && (
-                                        <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-accent/90 backdrop-blur-md text-xs font-bold border border-accent">
+                                        <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-accent/90 backdrop-blur-md text-xs font-bold border border-accent text-white">
                                             Signature
                                         </div>
                                     )}

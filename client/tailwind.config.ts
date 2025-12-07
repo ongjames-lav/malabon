@@ -60,6 +60,9 @@ const config: Config = {
                 sans: ["var(--font-inter)", "system-ui", "sans-serif"],
                 display: ["var(--font-outfit)", "system-ui", "sans-serif"],
             },
+            boxShadow: {
+                smooth: "0 8px 30px rgb(0 0 0 / 12%)",
+            },
             animation: {
                 "fade-in": "fadeIn 0.6s ease-out",
                 "slide-up": "slideUp 0.6s ease-out",

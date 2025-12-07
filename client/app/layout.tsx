@@ -28,6 +28,7 @@ export const metadata: Metadata = {
 export const viewport = "width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes";
 
 import { Navbar } from "@/components/Navbar";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export default function RootLayout({
     children,
@@ -35,10 +36,17 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="dark overflow-x-hidden w-full">
-            <body className={`${inter.variable} ${outfit.variable} font-sans antialiased overflow-x-hidden w-full`}>
-                <Navbar />
-                {children}
+        <html lang="en" suppressHydrationWarning>
+            <body className={`${inter.variable} ${outfit.variable} font-sans antialiased overflow-x-hidden w-full bg-background text-foreground`}>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <Navbar />
+                    {children}
+                </ThemeProvider>
             </body>
         </html>
     );

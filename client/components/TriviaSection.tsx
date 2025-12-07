@@ -52,7 +52,7 @@ export function TriviaSection() {
     return (
         <div className="flex flex-col">
             {/* Section Header - Full Screen Intro */}
-            <section className="min-h-[50vh] flex items-center justify-center py-20 px-6 relative overflow-hidden bg-slate-950">
+            <section className="min-h-[50vh] flex items-center justify-center py-20 px-6 relative overflow-hidden bg-background">
                 <div className="text-center z-10">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
                         <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
@@ -84,10 +84,10 @@ export function TriviaSection() {
                                 priority={index === 0}
                             />
                         ) : (
-                            <div className={`w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900`} />
+                            <div className={`w-full h-full bg-muted`} />
                         )}
                         {/* Dark Overlay */}
-                        <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]" />
+                        <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px]" />
                     </div>
 
                     {/* Content */}
@@ -120,10 +120,10 @@ export function TriviaSection() {
                                         World Record Holder
                                     </div>
                                 )}
-                                <h3 className="text-4xl md:text-6xl font-display font-bold mb-6 text-white leading-tight">
+                                <h3 className="text-4xl md:text-6xl font-display font-bold mb-6 text-foreground leading-tight">
                                     {fact.title}
                                 </h3>
-                                <p className="text-xl md:text-2xl text-gray-200 leading-relaxed font-light">
+                                <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-light">
                                     {fact.description}
                                 </p>
                                 {fact.highlight && (
@@ -138,7 +138,7 @@ export function TriviaSection() {
             ))}
 
             {/* Emergency Contacts & TXTMJS Section - Full Screen */}
-            <section className="min-h-screen w-full relative flex items-center justify-center overflow-hidden bg-slate-950 sticky top-0 py-20">
+            <section className="min-h-screen w-full relative flex items-center justify-center overflow-hidden bg-background sticky top-0 py-20">
                 <div className="absolute inset-0 -z-10">
                     <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-red-500/10 rounded-full blur-[100px]" />
                     <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px]" />
@@ -190,7 +190,7 @@ export function TriviaSection() {
                             <h3 className="text-xl font-bold mb-4">PNP - Malabon City</h3>
                             <div className="space-y-2 text-muted-foreground">
                                 <p className="flex items-center gap-2"><Smartphone className="w-4 h-4" /> 0998-598-7864</p>
-                                <p className="flex items-center gap-2 font-bold text-white"><Phone className="w-4 h-4" /> Dial 911</p>
+                                <p className="flex items-center gap-2 font-bold text-foreground"><Phone className="w-4 h-4" /> Dial 911</p>
                             </div>
                         </div>
 
@@ -218,7 +218,7 @@ export function TriviaSection() {
                     </div>
 
                     {/* TXTMJS Section */}
-                    <div className="glass-dark p-8 md:p-12 rounded-[2.5rem] border border-white/10 relative overflow-hidden">
+                    <div className="glass p-8 md:p-12 rounded-[2.5rem] border border-white/10 relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
                         <div className="flex flex-col md:flex-row gap-12 items-center relative z-10">
@@ -232,7 +232,7 @@ export function TriviaSection() {
                                     TXTMJS &lt;space&gt; KEYWORD &lt;space&gt; MESSAGE
                                 </div>
                                 <p className="text-muted-foreground mb-2">I-send ito sa:</p>
-                                <p className="text-2xl font-bold text-white mb-8">225687 / 09176TXTMJS / 09176898657</p>
+                                <p className="text-2xl font-bold text-foreground mb-8">225687 / 09176TXTMJS / 09176898657</p>
                             </div>
 
                             <div className="flex-1 w-full">

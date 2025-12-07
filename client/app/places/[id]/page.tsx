@@ -88,7 +88,7 @@ export default function BusinessDetailPage() {
     const coverImage = business.images && business.images.length > 0 ? business.images[0] : null;
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+        <main className="min-h-screen bg-background">
             {/* Hero Section */}
             <section className="relative min-h-screen overflow-hidden">
                 {/* Background Image */}
@@ -102,11 +102,11 @@ export default function BusinessDetailPage() {
                             priority
                         />
                     ) : (
-                        <div className="w-full h-full bg-slate-900 flex items-center justify-center">
+                        <div className="w-full h-full bg-muted flex items-center justify-center">
                             <MapPin className="w-32 h-32 text-accent/30" />
                         </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/40" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
                 </div>
 
                 {/* Content */}
@@ -130,7 +130,7 @@ export default function BusinessDetailPage() {
                             <span className="text-gradient">{business.name}</span>
                         </h1>
 
-                        <div className="flex items-center gap-2 text-gray-200 mb-6">
+                        <div className="flex items-center gap-2 text-muted-foreground mb-6">
                             <MapPin className="w-5 h-5 text-accent" />
                             <span className="text-lg">{business.address}</span>
                         </div>
@@ -183,7 +183,7 @@ export default function BusinessDetailPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
-                                className="glass-dark p-8 rounded-3xl"
+                                className="glass p-8 rounded-3xl"
                             >
                                 <h2 className="text-3xl font-bold mb-6">About</h2>
                                 <p className="text-muted-foreground text-lg leading-relaxed">
@@ -200,7 +200,7 @@ export default function BusinessDetailPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.3 }}
-                                className="glass-dark p-8 rounded-3xl"
+                                className="glass p-8 rounded-3xl"
                             >
                                 <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
                                     <ChefHat className="w-8 h-8 text-accent" />
@@ -241,7 +241,7 @@ export default function BusinessDetailPage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
-                            className="glass-dark p-6 rounded-3xl"
+                            className="glass p-6 rounded-3xl"
                         >
                             <h3 className="text-xl font-bold mb-4">Contact Information</h3>
                             <div className="space-y-3">
@@ -263,7 +263,7 @@ export default function BusinessDetailPage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.45 }}
-                            className="glass-dark p-6 rounded-3xl"
+                            className="glass p-6 rounded-3xl"
                         >
                             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                                 <Clock className="w-5 h-5 text-accent" />
@@ -288,10 +288,10 @@ export default function BusinessDetailPage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.5 }}
-                            className="glass-dark p-6 rounded-3xl"
+                            className="glass p-6 rounded-3xl"
                         >
                             <h3 className="text-xl font-bold mb-4">Location</h3>
-                            <div className="aspect-square rounded-2xl bg-slate-900/50 border-2 border-dashed border-white/10 flex items-center justify-center">
+                            <div className="aspect-square rounded-2xl bg-muted border-2 border-dashed border-white/10 flex items-center justify-center">
                                 <div className="text-center">
                                     <MapPin className="w-12 h-12 text-accent/30 mx-auto mb-2" />
                                     <p className="text-sm text-muted-foreground">Map integration coming soon</p>

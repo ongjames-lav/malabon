@@ -37,7 +37,7 @@ export function ParallaxSection({
                         className="absolute inset-0 bg-cover bg-center scale-110"
                         style={{ backgroundImage: `url(${backgroundImage})` }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/60 to-slate-950/80" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80" />
                 </motion.div>
             )}
 

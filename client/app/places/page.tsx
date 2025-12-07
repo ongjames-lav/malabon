@@ -9,7 +9,7 @@ import { businesses as staticBusinesses, type Business } from "@/lib/data";
 
 const PlacesMap = dynamic(() => import("@/components/PlacesMap").then((mod) => mod.PlacesMap), {
     ssr: false,
-    loading: () => <div className="h-[400px] w-full rounded-3xl bg-slate-900/50 animate-pulse border border-white/10" />
+    loading: () => <div className="h-[400px] w-full rounded-3xl bg-muted animate-pulse border border-border/10" />
 });
 
 export default function PlacesPage() {
@@ -29,7 +29,7 @@ export default function PlacesPage() {
 
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-20 pb-20">
+        <main className="min-h-screen bg-background pt-20 pb-20">
             {/* Hero Section */}
             <section className="max-w-7xl mx-auto px-6 mb-16">
                 <motion.div
@@ -57,7 +57,7 @@ export default function PlacesPage() {
                             placeholder="Search for restaurants, markets..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-12 pr-20 py-4 glass-dark rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                            className="w-full pl-12 pr-20 py-4 glass rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                         />
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
                             {filteredBusinesses.length} results
@@ -96,7 +96,7 @@ export default function PlacesPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05 }}
-                                className="glass-dark rounded-2xl p-6 hover-lift border border-white/5"
+                                className="glass rounded-2xl p-6 hover-lift border border-white/5"
                             >
                                 <div className="flex items-start justify-between mb-4">
                                     <div>

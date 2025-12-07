@@ -47,7 +47,7 @@ export function FeaturedBusinessSection() {
                         transition={{ delay: index * 0.1, duration: 0.6 }}
                     >
                         <Link href={`/places/${business.id}`}>
-                            <div className="glass-dark rounded-3xl overflow-hidden hover-lift group border border-white/5 h-full flex flex-col">
+                            <div className="glass rounded-3xl overflow-hidden hover-lift group border border-white/5 h-full flex flex-col">
                                 {/* Image */}
                                 <div className="relative h-56 overflow-hidden">
                                     {business.images && business.images.length > 0 ? (
@@ -70,7 +70,7 @@ export function FeaturedBusinessSection() {
 
                                     {/* Rating Badge */}
                                     {business.rating && (
-                                        <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/50 backdrop-blur-sm flex items-center gap-1">
+                                        <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/90 dark:bg-black/50 backdrop-blur-sm flex items-center gap-1 border border-black/10 dark:border-white/10 text-foreground dark:text-white">
                                             <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
                                             <span className="text-xs font-bold">{business.rating.toFixed(1)}</span>
                                         </div>

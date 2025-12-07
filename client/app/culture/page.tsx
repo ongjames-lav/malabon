@@ -98,7 +98,7 @@ const timelineEvents = [
 
 export default function CulturePage() {
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-x-hidden w-full">
+        <main className="min-h-screen bg-background overflow-x-hidden w-full">
             {/* Hero Section with Parallax */}
             <ParallaxSection
                 className="min-h-screen flex items-center justify-center pt-20 relative z-0"
@@ -128,7 +128,7 @@ export default function CulturePage() {
             </ParallaxSection>
 
             {/* Cultural Highlights */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-background">
                 <TextReveal>
                     <h2 className="text-4xl font-bold mb-12 text-center">Explore Our Heritage</h2>
                 </TextReveal>
@@ -136,7 +136,7 @@ export default function CulturePage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {culturalHighlights.map((item, index) => (
                         <TextReveal key={item.id} delay={index * 0.2}>
-                            <div className="glass-dark rounded-3xl overflow-hidden hover-lift border border-white/5 group h-full">
+                            <div className="glass rounded-3xl overflow-hidden hover-lift border border-white/5 group h-full">
                                 <div className="p-8">
                                     <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
                                         <item.icon className="w-8 h-8 text-accent" />
@@ -158,7 +158,7 @@ export default function CulturePage() {
             </section>
 
             {/* Timeline Section */}
-            <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 w-full">
+            <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-background w-full">
                 <TextReveal>
                     <div className="text-center mb-12">
                         <h2 className="text-4xl font-bold mb-4">Journey Through Time</h2>
@@ -172,7 +172,7 @@ export default function CulturePage() {
             </section>
 
             {/* Cultural Stories Section */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-background">
                 <TextReveal>
                     <div className="text-center mb-12">
                         <h2 className="text-4xl font-bold mb-4">Cultural Stories</h2>
@@ -185,14 +185,14 @@ export default function CulturePage() {
                 <div className="grid md:grid-cols-3 gap-8">
                     {culturalStories.map((story, index) => (
                         <TextReveal key={story.id} delay={index * 0.2}>
-                            <div className="glass-dark rounded-3xl overflow-hidden hover-lift border border-white/5 group h-full">
+                            <div className="glass rounded-3xl overflow-hidden hover-lift border border-white/5 group h-full">
                                 <div className="relative h-64 overflow-hidden">
                                     <img
                                         src={story.image}
                                         alt={story.title}
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
                                     <div className="absolute top-4 left-4">
                                         <span className="px-3 py-1 rounded-full bg-accent/20 border border-accent/30 text-xs font-semibold text-accent">
                                             {story.type}
@@ -224,7 +224,7 @@ export default function CulturePage() {
             </section>
 
             {/* Fishing Heritage Section */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 mb-20">
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10 bg-background mb-20">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <TextReveal direction="left">
                         <div>
@@ -253,7 +253,7 @@ export default function CulturePage() {
                                 alt="Malabon Fishing Heritage"
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
                             <div className="absolute bottom-0 left-0 p-8">
                                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 border border-accent/30 text-xs font-semibold text-accent mb-4">
                                     <Fish className="w-3 h-3" />

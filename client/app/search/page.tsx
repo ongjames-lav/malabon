@@ -315,7 +315,7 @@ function SearchContent() {
 
 export default function SearchPage() {
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-24 pb-20">
+        <main className="min-h-screen bg-background pt-24 pb-20">
             <Suspense fallback={
                 <div className="min-h-[50vh] flex items-center justify-center">
                     <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />

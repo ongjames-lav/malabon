@@ -35,7 +35,7 @@ const communityFeeds = [
 
 export default function CommunityPage() {
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+        <main className="min-h-screen bg-background">
             {/* Hero Section with Parallax */}
             <ParallaxSection
                 className="min-h-screen flex items-center justify-center pt-20"
@@ -106,7 +106,7 @@ export default function CommunityPage() {
 
             {/* TXTMJS Messaging Service Section */}
             <section className="max-w-7xl mx-auto px-6 py-20">
-                <div className="glass-dark p-8 md:p-12 rounded-[2.5rem] border border-white/10 relative overflow-hidden">
+                <div className="glass p-8 md:p-12 rounded-[2.5rem] border border-white/10 relative overflow-hidden">
                     {/* Background Decoration */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
@@ -122,12 +122,12 @@ export default function CommunityPage() {
                                 Paano magpadala ng mensahe?
                             </h3>
 
-                            <div className="bg-black/30 p-6 rounded-2xl mb-6 font-mono text-lg md:text-xl border border-white/5 inline-block">
+                            <div className="bg-muted p-6 rounded-2xl mb-6 font-mono text-lg md:text-xl border border-white/5 inline-block">
                                 TXTMJS &lt;space&gt; KEYWORD &lt;space&gt; MESSAGE
                             </div>
 
                             <p className="text-muted-foreground mb-2">I-send ito sa:</p>
-                            <p className="text-2xl font-bold text-white mb-8">
+                            <p className="text-2xl font-bold text-foreground mb-8">
                                 225687 / 09176TXTMJS / 09176898657
                             </p>
                         </div>
@@ -144,7 +144,7 @@ export default function CommunityPage() {
                                 ].map((keyword) => (
                                     <span
                                         key={keyword}
-                                        className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium hover:bg-white/10 transition-colors cursor-default"
+                                        className="px-4 py-2 rounded-xl bg-secondary border border-white/10 text-sm font-medium hover:bg-secondary/80 transition-colors cursor-default"
                                     >
                                         {keyword}
                                     </span>
@@ -180,7 +180,7 @@ export default function CommunityPage() {
                         }
                     ].map((item, index) => (
                         <TextReveal key={item.title} delay={index * 0.2}>
-                            <div className="glass-dark rounded-3xl overflow-hidden hover-lift border border-white/5 group h-full">
+                            <div className="glass rounded-3xl overflow-hidden hover-lift border border-white/5 group h-full">
                                 <div className="p-8">
                                     <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
                                         <item.icon className="w-8 h-8 text-accent" />

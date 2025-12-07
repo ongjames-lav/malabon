@@ -47,7 +47,7 @@ export function Timeline({ events }: TimelineProps) {
                     >
                         {/* Content */}
                         <div className={`w-full md:w-5/12 z-10 ${index % 2 === 0 ? "md:text-right md:pr-12" : "md:text-left md:pl-12"}`}>
-                            <div className="glass-dark p-6 rounded-2xl hover-lift">
+                            <div className="glass p-6 rounded-2xl hover-lift">
                                 <div className="text-accent font-bold text-sm mb-2 flex items-center gap-2 justify-end">
                                     <Calendar className="w-4 h-4" />
                                     {event.year}
@@ -63,7 +63,7 @@ export function Timeline({ events }: TimelineProps) {
                             whileInView={{ scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                            className="hidden md:block absolute left-1/2 top-8 -translate-x-1/2 w-6 h-6 rounded-full bg-gradient-to-br from-accent to-primary border-4 border-slate-950 z-20"
+                            className="hidden md:block absolute left-1/2 top-8 -translate-x-1/2 w-6 h-6 rounded-full bg-gradient-to-br from-accent to-primary border-4 border-background z-20"
                         />
 
                         {/* Mobile Dot - Position Left */}
@@ -72,7 +72,7 @@ export function Timeline({ events }: TimelineProps) {
                             whileInView={{ scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                            className="md:hidden w-3 h-3 rounded-full bg-gradient-to-br from-accent to-primary border-2 border-slate-950 z-20 flex-shrink-0 mt-2"
+                            className="md:hidden w-3 h-3 rounded-full bg-gradient-to-br from-accent to-primary border-2 border-background z-20 flex-shrink-0 mt-2 self-center"
                         />
 
                         {/* Spacer */}

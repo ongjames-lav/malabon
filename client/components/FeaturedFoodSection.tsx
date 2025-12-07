@@ -105,7 +105,7 @@ const featuredFoods = [
 
 export function FeaturedFoodSection() {
     return (
-        <section className="py-20 px-6 bg-slate-950 relative overflow-hidden">
+        <section className="py-20 px-6 bg-background relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 opacity-10 pointer-events-none">
                 <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-orange-500/20 rounded-full blur-[100px]" />
@@ -134,11 +134,11 @@ export function FeaturedFoodSection() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
-                            className="glass-dark rounded-3xl overflow-hidden hover-lift group border border-white/5 flex flex-col"
+                            className="glass rounded-3xl overflow-hidden hover-lift group border border-white/5 flex flex-col"
                         >
                             {/* Image Container */}
                             <div className="relative h-64 overflow-hidden">
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-10 opacity-60" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 opacity-60" />
                                 <Image
                                     src={food.image}
                                     alt={food.name}
@@ -147,7 +147,7 @@ export function FeaturedFoodSection() {
                                 />
                                 <div className="absolute top-4 left-4 z-20 flex gap-2">
                                     {food.tags.map(tag => (
-                                        <span key={tag} className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-xs font-medium border border-white/10">
+                                        <span key={tag} className="px-3 py-1 rounded-full bg-white/90 dark:bg-black/50 backdrop-blur-md text-xs font-medium border border-black/10 dark:border-white/10 text-foreground dark:text-white">
                                             {tag}
                                         </span>
                                     ))}
