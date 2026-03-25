@@ -12,7 +12,7 @@ export default function LandingPage() {
     return (
         <main className="min-h-screen bg-background overflow-x-hidden">
             {/* Hero Section */}
-            <section className="relative h-[90vh] flex items-center justify-center pt-20 px-4">
+            <section className="relative min-h-screen flex items-center justify-center pt-20 px-4">
                 <div className="absolute inset-0 z-0">
                     <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-background to-background" />
                     {/* Placeholder for dynamic background (could be video or high-res image) */}
@@ -37,7 +37,7 @@ export default function LandingPage() {
                         className="font-display text-5xl md:text-8xl font-black text-foreground tracking-tight"
                     >
                         Tap and Go, <br />
-                        <span className="text-primary italic">LB Shows!</span>
+                        <span className="text-primary italic">Let your Buddy Shows!</span>
                     </motion.h1>
 
                     <motion.p
@@ -63,7 +63,7 @@ export default function LandingPage() {
                         </Link>
                         <Link href="/companion">
                             <Button variant="ghost" size="lg" className="bg-white/50 dark:bg-muted/20">
-                                Try AI Companion
+                                Talk to Buddy
                             </Button>
                         </Link>
                     </motion.div>
@@ -92,7 +92,7 @@ export default function LandingPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                     <HighlightCard
                         icon={<Sparkles className="h-8 w-8 text-primary" />}
-                        title="AI Companion"
+                        title="Buddy the AI"
                         description="Personalized recommendations for food, culture, and events in real-time."
                     />
                     <HighlightCard

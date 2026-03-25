@@ -39,7 +39,7 @@ export function Navbar() {
                         Explore
                     </Link>
                     <Link href="/companion" className="hover:text-primary transition-colors">
-                        AI Companion
+                        Buddy AI
                     </Link>
                     <Link href="/itinerary" className="hover:text-primary transition-colors">
                         Itinerary
@@ -102,7 +102,7 @@ export function Navbar() {
                                 onClick={() => setIsOpen(false)}
                                 className="flex items-center justify-between p-4 hover:bg-white/5 rounded-2xl transition-all group w-full"
                             >
-                                <span className="text-lg font-medium group-hover:text-primary transition-colors">AI Companion</span>
+                                <span className="text-lg font-medium group-hover:text-primary transition-colors">Buddy AI</span>
                                 <span className="text-muted-foreground text-sm">Ask Buddy</span>
                             </Link>
                             <Link
