@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Calendar, Clock, MapPin, Sparkles, ChevronRight, Tent, Utensils, Camera } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import { Badge } from "@/components/atoms/Badge";
+import { PaymentModal } from "@/components/organisms/PaymentModal";
 
 const sampleItineraries = [
     {
@@ -44,6 +45,13 @@ import { Home, Bed, Hotel, ShieldCheck } from "lucide-react";
 
 export default function ItineraryPage() {
     const [selectedItinerary, setSelectedItinerary] = useState(0);
+    const [showPayment, setShowPayment] = useState(false);
+    const [paymentDetails, setPaymentDetails] = useState({ name: "", price: "" });
+
+    const handleBookPackage = (name: string, price: string) => {
+        setPaymentDetails({ name, price });
+        setShowPayment(true);
+    };
 
     return (
         <main className="min-h-screen bg-background pt-24 pb-12 px-4 md:px-8">
@@ -98,11 +106,22 @@ export default function ItineraryPage() {
                 {/* Right Content - Timeline */}
                 <div className="lg:col-span-2 space-y-8">
                     <div className="bg-white dark:bg-card border border-border rounded-[2rem] p-8 md:p-12 shadow-smooth">
-                        <div className="flex items-center justify-between mb-12">
-                            <h2 className="font-display text-2xl md:text-3xl font-bold">{sampleItineraries[selectedItinerary].title}</h2>
-                            <Button variant="ghost" className="gap-2">
-                                <Calendar className="h-4 w-4" /> Save to My Trips
-                            </Button>
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-12">
+                            <div>
+                                <h2 className="font-display text-2xl md:text-3xl font-bold">{sampleItineraries[selectedItinerary].title}</h2>
+                                <p className="text-primary font-bold mt-2">Starts at ₱{selectedItinerary === 0 ? "1,500" : selectedItinerary === 1 ? "850" : "2,200"} per pax</p>
+                            </div>
+                            <div className="flex gap-3">
+                                <Button variant="ghost" className="hidden xl:flex gap-2">
+                                    <Calendar className="h-4 w-4" /> Save
+                                </Button>
+                                <Button 
+                                    onClick={() => handleBookPackage(sampleItineraries[selectedItinerary].title + " Package", "₱" + (selectedItinerary === 0 ? "1,500" : selectedItinerary === 1 ? "850" : "2,200") + ".00")}
+                                    className="gap-2 bg-primary text-white hover:bg-primary/90"
+                                >
+                                    Book Package
+                                </Button>
+                            </div>
                         </div>
 
                         <div className="relative space-y-12">
@@ -188,14 +207,24 @@ export default function ItineraryPage() {
                                     <span>Tourism-accredited facilities</span>
                                 </li>
                             </ul>
-                            <Button variant="secondary" className="w-full bg-white text-primary hover:bg-white/90 font-bold uppercase tracking-widest py-6">
-                                Book Through AI Buddy
+                            <Button 
+                                variant="secondary" 
+                                onClick={() => handleBookPackage("Curated Lodging Stay", "₱3,500.00")}
+                                className="w-full bg-white text-primary hover:bg-white/90 font-bold uppercase tracking-widest py-6"
+                            >
+                                Book & Pay Deposit
                             </Button>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <PaymentModal 
+                isOpen={showPayment} 
+                onClose={() => setShowPayment(false)}
+                itemName={paymentDetails.name}
+                price={paymentDetails.price}
+            />
         </main>
     );
 }

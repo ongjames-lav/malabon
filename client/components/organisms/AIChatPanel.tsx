@@ -19,8 +19,103 @@ interface Message {
 // Malabon AI Knowledge Engine
 // ========================================
 
+function extractAveragePrice(priceStr: string | undefined): number {
+    if (!priceStr) return 0;
+    const digitsOnly = priceStr.replace(/[^\d-]/g, '');
+    if (!digitsOnly) return 0;
+    if (digitsOnly.includes('-')) {
+        const parts = digitsOnly.split('-');
+        if (parts.length === 2 && parts[0] && parts[1]) {
+            return (parseInt(parts[0]) + parseInt(parts[1])) / 2;
+        }
+    }
+    return parseInt(digitsOnly) || 0;
+}
+
+function generateSmartItinerary(query: string): string {
+    const q = query.toLowerCase();
+    
+    // Determine user preferences
+    const wantsCoffee = q.includes('coffee') || q.includes('cafe');
+    const wantsSeafood = q.includes('seafood') || q.includes('fish');
+    const wantsStreetFood = q.includes('street') || q.includes('ukoy') || q.includes('kikiam') || q.includes('lumpia');
+
+    // 1. Breakfast / Morning
+    let breakfastSpots = businesses.filter(b => b.category === "Bakery" || b.category === "Cafe");
+    if (wantsCoffee) breakfastSpots = businesses.filter(b => b.category === "Cafe");
+    
+    const bSpot = breakfastSpots[Math.floor(Math.random() * breakfastSpots.length)] || businesses.find(b => b.name === "Dolor's Kakanin")!;
+    const bFood = foods.find(f => bSpot.menu_items.includes(f.id)) || foods.find(f => f.id === "food_2")!;
+    const bCost = extractAveragePrice(bFood.price);
+
+    // 2. Activity / Landmark
+    const activity = landmarks[Math.floor(Math.random() * landmarks.length)];
+
+    // 3. Lunch / Heavy Meal
+    let lunchSpots = businesses.filter(b => b.category === "Restaurant");
+    if (wantsSeafood) {
+        lunchSpots = businesses.filter(b => 
+            b.menu_items.some(id => {
+                const f = foods.find(food => food.id === id);
+                return f && f.category === "Seafood";
+            })
+        );
+        if (lunchSpots.length === 0) lunchSpots = businesses.filter(b => b.category === "Restaurant");
+    }
+    
+    const lSpot = lunchSpots[Math.floor(Math.random() * lunchSpots.length)] || businesses.find(b => b.name === "Nanay's Pancit Malabon")!;
+    const lFoodId = lSpot.menu_items.length > 0 ? lSpot.menu_items[Math.floor(Math.random() * lSpot.menu_items.length)] : "food_1";
+    const lFood = foods.find(f => f.id === lFoodId)!;
+    const lCost = extractAveragePrice(lFood.price);
+
+    // 4. Afternoon Snack / Merienda
+    let snackSpots = businesses.filter(b => b.menu_items.some(id => {
+        const cat = foods.find(f => f.id === id)?.category;
+        return cat === "Street Food" || cat === "Dessert" || cat === "Snack";
+    }));
+    if (wantsStreetFood) {
+        snackSpots = businesses.filter(b => b.menu_items.some(id => foods.find(f => f.id === id)?.category === "Street Food"));
+    }
+    if (snackSpots.length === 0) snackSpots = businesses.filter(b => b.category === "Bakery");
+    
+    const sSpot = snackSpots[Math.floor(Math.random() * snackSpots.length)] || businesses.find(b => b.name === "Valeriano's Eatery")!;
+    const snackFoodId = sSpot.menu_items.find(id => {
+        const cat = foods.find(f => f.id === id)?.category;
+        return cat === "Street Food" || cat === "Dessert" || cat === "Snack";
+    }) || sSpot.menu_items[0];
+    const sFood = foods.find(f => f.id === snackFoodId) || foods[0];
+    const sCost = extractAveragePrice(sFood.price);
+
+    // Grand Total Estimate
+    const transportAllowance = 150; // Tricycle rides
+    const totalEst = Math.round(bCost + lCost + sCost + transportAllowance);
+
+    return `🧭 **Custom Malabon Itinerary Generated For You:**\n\n⏰ **Morning at ${bSpot.name}**\n📍 ${bSpot.address}\nTry their **${bFood.name}** (${bFood.price})\n\n⏰ **Mid-Morning: Explore ${activity.name}**\n${activity.description}\n\n⏰ **Lunch Date at ${lSpot.name}**\n📍 ${lSpot.address}\nFeast on **${lFood.name}** (${lFood.price})\n\n⏰ **Afternoon Snack at ${sSpot.name}**\n📍 ${sSpot.address}\nEnjoy **${sFood.name}** (${sFood.price})\n\n💰 **Estimated Total Cost:** ₱${totalEst.toLocaleString()} per person\n*(Includes ₱${transportAllowance} allowance for local tricycle rides/transfers)*\n\n*Did you want me to adjust this? E.g. "Add more coffee shops" or "Find seafood instead"*`;
+}
+
 function getMalabonResponse(query: string): string {
     const q = query.toLowerCase().trim();
+
+    // --- Personality & Small Talk ---
+    if (q.includes("how are you") || q.includes("how u doin") || q.includes("how's it going") || q.includes("how do you do")) {
+        return "I'm doing totally awesome! 🌊 Just hanging out by the Malabon River and dreaming about my next bilao of Pancit. How are YOU doing today? Want me to suggest something fun to do? 😊";
+    }
+
+    if (q.match(/\b(who are you|what are you|\bwho's this\b)\b/)) {
+        return "I am **Buddy**, your friendly AI travel companion specifically made for Lakbay Malabon! 🚲 I don't sleep, I don't take breaks, and I basically survive on local history and coffee recommendations. ☕ What adventure are you planning today?";
+    }
+
+    if (q.includes("your favorite") || q.includes("u like") || q.includes("you like") || q.includes("best food in my opinion")) {
+        return "Ooh, tough question! I'm a massive fan of the colorful **Dolor's Sapin-Sapin**, but for a real feast, **Judy Ann's Crispy Pata** is my absolute favorite. 🍗 What kind of food gets you excited?";
+    }
+
+    if (q.includes("joke") || q.includes("funny") || q.includes("laugh")) {
+        return "Okay, here goes nothing...\n\nWhy did the Pancit Malabon cross the road? ...To get to the other bilao! 🥁 Ba-dum-tss!\n\nAlright, I'll stick to being a tour guide. Where do you want to go next? 🗺️";
+    }
+
+    if (q.includes("tired") || q.includes("exhausted") || q.includes("boring") || q.includes("bored") || q.includes("sleepy")) {
+        return "Aww, taking a break is super important! 💆‍♀️ If you're feeling sluggish or tired, why not chill somewhere cozy? I highly recommend **Stay Up Espresso Bar** to grab a Spanish Latte and just relax. Should I point you to some more cafes nearby? ☕";
+    }
 
     // --- Guard: Off-topic / non-Malabon queries ---
     const offTopicKeywords = [
@@ -86,11 +181,11 @@ function getMalabonResponse(query: string): string {
         return `🍧 **Sweet treats in Malabon:**\n\n${list}\n\n📍 For the best kakanin experience, go to **Dolor's Kakanin** on Governor Pascual Avenue. For Halo-Halo, most restaurants along General Luna serve excellent versions.\n\n💡 **Tip:** Try Pichi-Pichi with CHEESE (not coconut) — it's a Malabon thing! 🧀`;
     }
 
-    if (q.includes("eat") || q.includes("food") || q.includes("hungry") || q.includes("recommend") || q.includes("where should i") || q.includes("what should i")) {
+    if (q.includes("eat") || q.includes("food") || q.includes("hungry") || q.includes("starving") || q.includes("recommend") || q.includes("where should i") || q.includes("what should i")) {
         const signatureFoods = foods.filter(f => f.isSignature);
         const picks = signatureFoods.sort(() => Math.random() - 0.5).slice(0, 4);
         const list = picks.map(f => `• **${f.name}** (${f.category}) — ${f.price}`).join("\n");
-        return `🍽️ **My top picks for you today:**\n\n${list}\n\n🏆 **Can't-miss combo:** Start with Pancit Malabon at Nanay's, then walk to Dolor's for Sapin-Sapin dessert. Both are on Governor Pascual Avenue!\n\n📍 Most food spots are concentrated along **General Luna Street** and **Governor Pascual Avenue** in Barangay Concepcion.\n\nWant me to suggest a specific type? (seafood, street food, desserts, cafes)`;
+        return `I hear ya! 🍽️ I definitely won't let you starve in Malabon.\n\n**My top fast-fixes for you right now:**\n${list}\n\n🏆 **Can't-miss combo:** Start with Pancit Malabon at Nanay's, then walk to Dolor's for Sapin-Sapin dessert.\n\nAre you craving something specific, like seafood, street food, or sweets? 🤤`;
     }
 
     // --- Cafe queries ---
@@ -117,7 +212,7 @@ function getMalabonResponse(query: string): string {
 
     // --- Itinerary / day trip ---
     if (q.includes("itinerary") || q.includes("plan") || q.includes("day trip") || q.includes("1 day") || q.includes("one day") || q.includes("full day") || q.includes("schedule")) {
-        return `🧭 **Perfect 1-Day Malabon Itinerary:**\n\n⏰ **8:00 AM** — Breakfast at **Dolor's Kakanin**\nStart with Sapin-Sapin and Puto Pao with hot tsokolate\n\n⏰ **9:30 AM** — Walk to **San Bartolome Parish Church**\nExplore the Spanish colonial architecture\n\n⏰ **10:30 AM** — Visit **Raymundo House**\nStep back in time at this ancestral home\n\n⏰ **12:00 PM** — Lunch at **Nanay's Pancit Malabon**\nOrder the classic bilao to share!\n\n⏰ **2:00 PM** — Merienda at **Betsy's Cake Center**\nGrab Broas and other pastries\n\n⏰ **3:30 PM** — Coffee break at **Stay Up Espresso Bar**\nRecharge with a Spanish Latte\n\n⏰ **5:00 PM** — Sunset walk along the **Malabon River**\nExperience the "Venice of the North"\n\n⏰ **7:00 PM** — Dinner at **Judy Ann's Crispy Pata (Jamico's)**\nEnd the day with their legendary Crispy Pata!\n\n💡 **Budget estimate:** Around ₱1,200-1,800 per person\n\nWant me to customize this? Tell me your vibe (foodie, history buff, cafe hopper)!`;
+        return generateSmartItinerary(q);
     }
 
     // --- Budget ---
@@ -154,11 +249,11 @@ function getMalabonResponse(query: string): string {
 
     // --- Catch-all for Malabon-related but unmatched ---
     if (q.includes("malabon")) {
-        return `Great question about Malabon! 🌊 Here's what I can help you with:\n\n🍜 **Food** — "What should I eat?" or "Best pancit"\n📍 **Places** — "Where to visit?" or "Hidden gems"\n🧭 **Itinerary** — "Plan a day trip"\n☕ **Cafes** — "Best coffee shops"\n💰 **Budget** — "How much will it cost?"\n📖 **Culture** — "Tell me about Malabon's history"\n\nJust ask and I'll guide you! 🚲`;
+        return `I'd love to help with that! 🌊 Here's what I can do for you in Malabon:\n\n🍜 **Food** — "What should I eat?" or "Best pancit"\n📍 **Places** — "Where to visit?" or "Hidden gems"\n🧭 **Itinerary** — "Plan a day trip"\n☕ **Cafes** — "Best coffee shops"\n💰 **Budget** — "How much will it cost?"\n📖 **Culture** — "Tell me about Malabon's history"\n\nJust tell me what's on your mind! 🚲`;
     }
 
     // --- Generic fallback ---
-    return `I'm Buddy, your Malabon-only AI guide! 🚲 I can help you with everything about **Malabon City**:\n\n🍜 Try: *"Where should I eat?"*\n📍 Try: *"Best places to visit"*\n✨ Try: *"Tell me a hidden gem"*\n🧭 Try: *"Plan a 1-day trip"*\n☕ Try: *"Best cafe for studying"*\n💰 Try: *"Is Malabon affordable?"*\n\nI can only answer questions about Malabon — it's my specialty! What would you like to know?`;
+    return `You know, I am actually completely built-in to Lakbay Malabon! 🚲 I don't use the cloud, meaning I'm ultra-fast and totally private. \n\nBecause I'm a local companion, I can help you with absolutely everything about **Malabon City**:\n\n🍜 Try: *"Where should I eat?"*\n📍 Try: *"Best places to visit"*\n✨ Try: *"Tell me a hidden gem"*\n🧭 Try: *"Plan a 1-day trip"*\n☕ Try: *"Best cafe for studying"*\n💰 Try: *"Is Malabon affordable?"*\n\nHow can I be your Buddy today?`;
 }
 
 // ========================================
@@ -203,7 +298,6 @@ export const AIChatPanel = () => {
         setInput("");
         setIsTyping(true);
 
-        // Simulate AI thinking delay (shorter for simple queries)
         const delay = text.length < 20 ? 800 : 1500;
         setTimeout(() => {
             const aiResponse = getMalabonResponse(text);
@@ -286,21 +380,19 @@ export const AIChatPanel = () => {
 
             {/* Footer / Input */}
             <div className="p-4 border-t border-border bg-white dark:bg-card space-y-3">
-                {/* Suggested prompts - only show when conversation is fresh */}
-                {messages.length <= 2 && (
-                    <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-                        {suggestedPrompts.map((prompt) => (
-                            <button
-                                key={prompt.label}
-                                onClick={() => handleSend(prompt.label)}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/5 hover:bg-primary/10 border border-primary/20 hover:border-primary text-xs font-medium transition-all whitespace-nowrap text-foreground"
-                            >
-                                {prompt.icon}
-                                {prompt.label}
-                            </button>
-                        ))}
-                    </div>
-                )}
+                {/* Suggested prompts always show */}
+                <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+                    {suggestedPrompts.map((prompt) => (
+                        <button
+                            key={prompt.label}
+                            onClick={() => handleSend(prompt.label)}
+                            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/5 hover:bg-primary/10 border border-primary/20 hover:border-primary text-xs font-medium transition-all whitespace-nowrap text-foreground"
+                        >
+                            {prompt.icon}
+                            {prompt.label}
+                        </button>
+                    ))}
+                </div>
 
                 <form 
                     onSubmit={(e) => { e.preventDefault(); handleSend(input); }}

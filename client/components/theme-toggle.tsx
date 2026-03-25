@@ -6,6 +6,19 @@ import { useTheme } from "next-themes"
 
 export function ThemeToggle() {
     const { setTheme, theme } = useTheme()
+    const [mounted, setMounted] = React.useState(false)
+
+    React.useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    if (!mounted) {
+        return (
+            <button className="p-2 rounded-full relative invisible" aria-label="Toggle theme placeholder">
+                <div className="h-[1.2rem] w-[1.2rem]" />
+            </button>
+        )
+    }
 
     return (
         <button

@@ -50,7 +50,7 @@ export function Navbar() {
                     <Link href="/partner" className="hover:text-primary transition-colors">
                         Partner
                     </Link>
-                    <Link href="https://malabonfinds.vercel.app/culture" target="_blank" className="hover:text-primary transition-colors flex items-center gap-1.5">
+                    <Link href="/culture" className="hover:text-primary transition-colors flex items-center gap-1.5">
                         Culture
                     </Link>
                 </div>
@@ -122,8 +122,7 @@ export function Navbar() {
                                 <span className="text-muted-foreground text-sm">Join Us</span>
                             </Link>
                             <Link
-                                href="https://malabonfinds.vercel.app/culture"
-                                target="_blank"
+                                href="/culture"
                                 onClick={() => setIsOpen(false)}
                                 className="flex items-center justify-between p-4 hover:bg-white/5 rounded-2xl transition-all group w-full"
                             >
