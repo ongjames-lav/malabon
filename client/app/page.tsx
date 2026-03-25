@@ -1,94 +1,188 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ChefHat, MapPin, Sparkles, Search, TrendingUp, Heart } from "lucide-react";
 import Link from "next/link";
-import { TriviaSection } from "@/components/TriviaSection";
-import { FeaturedFoodSection } from "@/components/FeaturedFoodSection";
-import { FeaturedBusinessSection } from "@/components/FeaturedBusinessSection";
-import { SearchAutocomplete } from "@/components/SearchAutocomplete";
+import { motion } from "framer-motion";
+import { ArrowRight, Sparkles, MapPin, Utensils, Users, Globe, Handshake } from "lucide-react";
+import { Button } from "@/components/atoms/Button";
+import { Badge } from "@/components/atoms/Badge";
+import { businesses } from "@/lib/data";
+import { PlaceCard } from "@/components/molecules/PlaceCard";
 
-export default function HomePage() {
+export default function LandingPage() {
     return (
-        <main className="min-h-screen bg-background">
+        <main className="min-h-screen bg-background overflow-x-hidden">
             {/* Hero Section */}
-            <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20 pb-16 sm:pb-32 px-4 sm:px-6">
-                {/* ... background elements ... */}
+            <section className="relative h-[90vh] flex items-center justify-center pt-20 px-4">
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-background to-background" />
+                    {/* Placeholder for dynamic background (could be video or high-res image) */}
+                    <div className="absolute inset-0 opacity-20 bg-[url('/assets/images/malabon-river-hero.jpg')] bg-cover bg-center" />
+                </div>
 
-                {/* Hero Content */}
-                <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+                <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5 }}
                     >
-                        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-4 sm:mb-6 mt-16 sm:mt-20 md:mt-24 px-2">
-                            <span className="text-gradient">Taste of Malabon</span>
-                        </h1>
-
-                        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 sm:mb-12 px-4">
-                            Discover the rich culinary heritage and vibrant food scene of Malabon City.
-                            From legendary Pancit Malabon to hidden street food gems.
-                        </p>
-
-                        {/* Search Autocomplete */}
-                        <div className="mb-8 sm:mb-12 px-2 sm:px-4">
-                            <SearchAutocomplete />
-                        </div>
-
-                        <motion.div
-                            className="flex flex-col gap-3 sm:gap-4 justify-center items-center px-4"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4 }}
-                        >
-                            <Link href="/foods" className="w-full sm:w-auto group px-6 sm:px-8 py-3 sm:py-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full font-semibold flex items-center justify-center gap-2 transition-all hover-lift glow-effect text-sm sm:text-base">
-                                <Search className="w-4 sm:w-5 h-4 sm:h-5" />
-                                Explore Foods
-                                <Sparkles className="w-3 sm:w-4 h-3 sm:h-4 group-hover:rotate-12 transition-transform" />
-                            </Link>
-                            <Link href="/culture" className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 glass hover:bg-white/20 rounded-full font-semibold transition-all hover-lift text-sm sm:text-base">
-                                Discover Culture
-                            </Link>
-                        </motion.div>
+                        <Badge variant="outline" className="px-4 py-2 border-primary/30 text-primary">
+                            🌊 Welcome to the Venice of the North
+                        </Badge>
                     </motion.div>
 
-                    {/* Floating Stats */}
-                    <motion.div
-                        className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 mt-8 sm:mt-12 px-4"
-                        initial={{ opacity: 0, y: 40 }}
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.6 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                        className="font-display text-5xl md:text-8xl font-black text-foreground tracking-tight"
                     >
-                        {[
-                            { icon: ChefHat, label: "Restaurants", value: "200+" },
-                            { icon: Heart, label: "Local Dishes", value: "50+" },
-                            { icon: TrendingUp, label: "Happy Foodies", value: "10K+" },
-                        ].map((stat, index) => (
-                            <motion.div
-                                key={stat.label}
-                                className="glass-dark p-4 sm:p-6 rounded-2xl hover-lift"
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ delay: index * 0.1 }}
-                            >
-                                <stat.icon className="w-6 sm:w-8 h-6 sm:h-8 text-accent mx-auto mb-2 sm:mb-3" />
-                                <div className="text-2xl sm:text-3xl font-bold text-gradient mb-1">{stat.value}</div>
-                                <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
-                            </motion.div>
-                        ))}
+                        Tap and Go, <br />
+                        <span className="text-primary italic">LB Shows!</span>
+                    </motion.h1>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
+                    >
+                        Lakbay Malabon is your smart travel companion—helping you navigate,
+                        discover, and experience the city like a local, directly from your browser.
+                    </motion.p>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+                    >
+                        <Link href="/explore">
+                            <Button size="lg" rightIcon={<ArrowRight />}>
+                                Start Exploring
+                            </Button>
+                        </Link>
+                        <Link href="/companion">
+                            <Button variant="ghost" size="lg" className="bg-white/50 dark:bg-muted/20">
+                                Try AI Companion
+                            </Button>
+                        </Link>
                     </motion.div>
                 </div>
 
+                {/* Floating Elements (Tricycle / Buddy) */}
+                <motion.div
+                    animate={{ y: [0, -20, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute bottom-10 right-10 hidden xl:block"
+                >
+                    <div className="bg-white dark:bg-card p-4 rounded-2xl shadow-glow border border-primary/20 flex items-center gap-4">
+                        <div className="h-12 w-12 bg-primary rounded-full flex items-center justify-center">
+                            <Sparkles className="h-6 w-6 text-white" />
+                        </div>
+                        <div className="pr-4">
+                            <p className="text-xs font-bold text-primary uppercase tracking-widest">AI Buddy</p>
+                            <p className="text-sm font-bold text-foreground overflow-hidden whitespace-nowrap border-r-2 border-primary animate-typing">"Where should we eat today?"</p>
+                        </div>
+                    </div>
+                </motion.div>
             </section>
 
-            {/* Featured Food Section */}
-            <FeaturedFoodSection />
+            {/* Highlights Section */}
+            <section className="py-24 px-4 md:px-8 max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                    <HighlightCard
+                        icon={<Sparkles className="h-8 w-8 text-primary" />}
+                        title="AI Companion"
+                        description="Personalized recommendations for food, culture, and events in real-time."
+                    />
+                    <HighlightCard
+                        icon={<Utensils className="h-8 w-8 text-primary" />}
+                        title="Food Discovery"
+                        description="Find the most authentic Pancit Malabon, Sapin-Sapin, and local hidden gems."
+                    />
+                    <HighlightCard
+                        icon={<Users className="h-8 w-8 text-primary" />}
+                        title="Community First"
+                        description="Supporting local businesses and promoting sustainable tourism across the city."
+                    />
+                </div>
+            </section>
 
-            {/* Featured Business Section */}
-            <FeaturedBusinessSection />
+            {/* Partners Section */}
+            <section className="py-24 px-4 md:px-8 max-w-7xl mx-auto space-y-16">
+                <div className="text-center space-y-4 max-w-3xl mx-auto">
+                    <Badge variant="outline" className="px-4 py-2 border-primary/30 text-primary flex items-center gap-2 w-fit mx-auto">
+                        <Handshake className="h-4 w-4" />
+                        Official Partners
+                    </Badge>
+                    <h2 className="font-display text-4xl md:text-6xl font-black text-foreground tracking-tight">
+                        Grow With Our <br />
+                        <span className="text-primary italic">Local Community</span>
+                    </h2>
+                    <p className="text-muted-foreground text-lg">
+                        We're proud to partner with Malabon's finest restaurants, cafes, and
+                        tour guides to provide you with an authentic local experience.
+                    </p>
+                </div>
 
-            {/* Trivia Section */}
-            <TriviaSection />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    {businesses.filter(b => b.isPartner).map((partner) => (
+                        <div key={partner.id} className="scale-105 hover:scale-110 transition-transform duration-300">
+                            <PlaceCard
+                                id={partner.id}
+                                name={partner.name}
+                                description={partner.description}
+                                category={partner.category}
+                                rating={partner.rating}
+                                image={partner.images[0]}
+                                address={partner.address}
+                                type="places"
+                                isSignature={false}
+                            />
+                        </div>
+                    ))}
+                </div>
+
+                <div className="text-center pt-8">
+                    <Link href="/partner">
+                        <Button variant="ghost" className="group">
+                            View All Partnerships
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                    </Link>
+                </div>
+            </section>
+            <section className="py-24 px-4">
+                <div className="max-w-5xl mx-auto rounded-[3rem] bg-secondary text-secondary-foreground p-12 md:p-20 text-center space-y-8 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
+
+                    <h2 className="font-display text-4xl md:text-5xl font-black relative z-10">
+                        Ready to experience <br />
+                        <span className="text-primary italic">Malabon like a local?</span>
+                    </h2>
+                    <p className="text-secondary-foreground/70 text-lg max-w-xl mx-auto relative z-10">
+                        Join thousands of travelers who use Lakbay Malabon to discover the city's
+                        best kept secrets. Free and always interactive.
+                    </p>
+                    <div className="pt-4 relative z-10">
+                        <Link href="/explore">
+                            <Button size="lg" variant="primary" className="shadow-2xl">
+                                Join the Journey
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
+            </section>
         </main>
     );
 }
+
+const HighlightCard = ({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) => (
+    <div className="space-y-4 group">
+        <div className="h-16 w-16 rounded-2xl bg-primary/5 flex items-center justify-center transition-all group-hover:bg-primary group-hover:text-white group-hover:shadow-glow group-hover:-translate-y-2">
+            {icon}
+        </div>
+        <h3 className="font-display text-2xl font-bold text-foreground">{title}</h3>
+        <p className="text-muted-foreground leading-relaxed">{description}</p>
+    </div>
+);

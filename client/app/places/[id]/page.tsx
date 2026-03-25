@@ -291,19 +291,22 @@ export default function BusinessDetailPage() {
                             className="glass p-6 rounded-3xl"
                         >
                             <h3 className="text-xl font-bold mb-4">Location</h3>
-                            <div className="aspect-square rounded-2xl bg-muted border-2 border-dashed border-white/10 flex items-center justify-center">
-                                <div className="text-center">
-                                    <MapPin className="w-12 h-12 text-accent/30 mx-auto mb-2" />
-                                    <p className="text-sm text-muted-foreground">Map integration coming soon</p>
-                                </div>
+                            <div className="aspect-square rounded-2xl overflow-hidden border border-border">
+                                <iframe
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    loading="lazy"
+                                    src={`https://www.openstreetmap.org/export/embed.html?bbox=${business.location.coordinates[0] - 0.003}%2C${business.location.coordinates[1] - 0.002}%2C${business.location.coordinates[0] + 0.003}%2C${business.location.coordinates[1] + 0.002}&layer=mapnik&marker=${business.location.coordinates[1]}%2C${business.location.coordinates[0]}`}
+                                />
                             </div>
                             <a
-                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`}
+                                href={`https://www.openstreetmap.org/?mlat=${business.location.coordinates[1]}&mlon=${business.location.coordinates[0]}#map=17/${business.location.coordinates[1]}/${business.location.coordinates[0]}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block mt-4 px-4 py-2 bg-primary hover:bg-primary/90 rounded-full font-semibold transition-all text-center"
+                                className="block mt-4 px-4 py-2 bg-primary hover:bg-primary/90 rounded-full font-semibold transition-all text-center text-white"
                             >
-                                Open in Google Maps
+                                Open in OpenStreetMap
                             </a>
                         </motion.div>
                     </div>

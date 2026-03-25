@@ -23,10 +23,13 @@ const config: Config = {
                 primary: {
                     DEFAULT: "hsl(var(--primary))",
                     foreground: "hsl(var(--primary-foreground))",
+                    aqua: "#00C2FF",
+                    soft: "#E0F7FA",
                 },
                 secondary: {
                     DEFAULT: "hsl(var(--secondary))",
                     foreground: "hsl(var(--secondary-foreground))",
+                    ocean: "#003B5C",
                 },
                 muted: {
                     DEFAULT: "hsl(var(--muted))",
@@ -43,25 +46,21 @@ const config: Config = {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",
-                chart: {
-                    "1": "hsl(var(--chart-1))",
-                    "2": "hsl(var(--chart-2))",
-                    "3": "hsl(var(--chart-3))",
-                    "4": "hsl(var(--chart-4))",
-                    "5": "hsl(var(--chart-5))",
-                },
             },
             borderRadius: {
                 lg: "var(--radius)",
                 md: "calc(var(--radius) - 2px)",
                 sm: "calc(var(--radius) - 4px)",
+                xl: "1rem",
+                "2xl": "1.5rem",
             },
             fontFamily: {
                 sans: ["var(--font-inter)", "system-ui", "sans-serif"],
                 display: ["var(--font-outfit)", "system-ui", "sans-serif"],
             },
             boxShadow: {
-                smooth: "0 8px 30px rgb(0 0 0 / 12%)",
+                smooth: "0 8px 30px rgba(0, 194, 255, 0.08)",
+                glow: "0 0 20px rgba(0, 194, 255, 0.3)",
             },
             animation: {
                 "fade-in": "fadeIn 0.6s ease-out",

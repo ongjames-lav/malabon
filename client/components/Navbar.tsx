@@ -20,32 +20,38 @@ export function Navbar() {
             <div className="max-w-7xl mx-auto glass rounded-full px-6 py-3 flex items-center justify-between relative">
                 {/* Logo & Brand */}
                 <Link href="/" className="flex items-center gap-3 group" onClick={() => setIsOpen(false)}>
-                    <div className="relative w-10 h-10 overflow-hidden rounded-full border-2 border-accent/50 group-hover:border-accent transition-colors">
+                    <div className="relative w-10 h-10 overflow-hidden rounded-full border-2 border-primary/30 group-hover:border-primary transition-colors shadow-sm">
                         <Image
-                            src="/assets/branding/malabon-seal.png"
-                            alt="Malabon City Seal"
+                            src="/assets/branding/lakbay-logo.png"
+                            alt="Lakbay Malabon Logo"
                             fill
                             className="object-cover"
                         />
                     </div>
-                    <span className="font-display font-bold text-lg tracking-tight group-hover:text-gradient transition-all">
-                        Taste of Malabon
+                    <span className="font-display font-black text-xl tracking-tight group-hover:text-primary transition-all uppercase">
+                        Lakbay <span className="text-primary italic">Malabon</span>
                     </span>
                 </Link>
 
                 {/* Desktop Navigation */}
-                <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-                    <Link href="/foods" className="hover:text-foreground transition-colors">
-                        Delicacies
+                <div className="hidden md:flex items-center gap-8 text-sm font-bold text-muted-foreground uppercase tracking-widest">
+                    <Link href="/explore" className="hover:text-primary transition-colors">
+                        Explore
                     </Link>
-                    <Link href="/places" className="hover:text-foreground transition-colors">
-                        Places
+                    <Link href="/companion" className="hover:text-primary transition-colors">
+                        AI Companion
                     </Link>
-                    <Link href="/culture" className="hover:text-foreground transition-colors">
-                        Culture
+                    <Link href="/itinerary" className="hover:text-primary transition-colors">
+                        Itinerary
                     </Link>
-                    <Link href="/community" className="hover:text-foreground transition-colors">
+                    <Link href="/community" className="hover:text-primary transition-colors">
                         Community
+                    </Link>
+                    <Link href="/partner" className="hover:text-primary transition-colors">
+                        Partner
+                    </Link>
+                    <Link href="https://malabonfinds.vercel.app/culture" target="_blank" className="hover:text-primary transition-colors flex items-center gap-1.5">
+                        Culture
                     </Link>
                 </div>
 
@@ -66,8 +72,8 @@ export function Navbar() {
                         )}
                     </button>
 
-                    <Link href="/foods" className="hidden md:block px-5 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full text-sm font-semibold transition-all hover-lift">
-                        Get Started
+                    <Link href="/explore" className="hidden md:block px-5 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full text-sm font-semibold transition-all hover-lift">
+                        Start Exploring
                     </Link>
                 </div>
             </div>
@@ -84,46 +90,55 @@ export function Navbar() {
                     >
                         <div className="glass-dark rounded-3xl p-6 flex flex-col gap-2 border border-white/10 shadow-2xl backdrop-blur-xl">
                             <Link
-                                href="/foods"
+                                href="/explore"
                                 onClick={() => setIsOpen(false)}
                                 className="flex items-center justify-between p-4 hover:bg-white/5 rounded-2xl transition-all group w-full"
                             >
-                                <span className="text-lg font-medium group-hover:text-accent transition-colors">Delicacies</span>
-                                <span className="text-muted-foreground text-sm">Find Food</span>
+                                <span className="text-lg font-medium group-hover:text-primary transition-colors">Explore</span>
+                                <span className="text-muted-foreground text-sm">Map & Grid</span>
                             </Link>
                             <Link
-                                href="/places"
+                                href="/companion"
                                 onClick={() => setIsOpen(false)}
                                 className="flex items-center justify-between p-4 hover:bg-white/5 rounded-2xl transition-all group w-full"
                             >
-                                <span className="text-lg font-medium group-hover:text-accent transition-colors">Places</span>
-                                <span className="text-muted-foreground text-sm">Visit Spots</span>
+                                <span className="text-lg font-medium group-hover:text-primary transition-colors">AI Companion</span>
+                                <span className="text-muted-foreground text-sm">Ask Buddy</span>
                             </Link>
                             <Link
-                                href="/culture"
+                                href="/itinerary"
                                 onClick={() => setIsOpen(false)}
                                 className="flex items-center justify-between p-4 hover:bg-white/5 rounded-2xl transition-all group w-full"
                             >
-                                <span className="text-lg font-medium group-hover:text-accent transition-colors">Culture</span>
-                                <span className="text-muted-foreground text-sm">History</span>
+                                <span className="text-lg font-medium group-hover:text-primary transition-colors">Itinerary</span>
+                                <span className="text-muted-foreground text-sm">Plan a Trip</span>
                             </Link>
                             <Link
-                                href="/community"
+                                href="/partner"
                                 onClick={() => setIsOpen(false)}
                                 className="flex items-center justify-between p-4 hover:bg-white/5 rounded-2xl transition-all group w-full"
                             >
-                                <span className="text-lg font-medium group-hover:text-accent transition-colors">Community</span>
-                                <span className="text-muted-foreground text-sm">Updates</span>
+                                <span className="text-lg font-medium group-hover:text-primary transition-colors">Partner</span>
+                                <span className="text-muted-foreground text-sm">Join Us</span>
+                            </Link>
+                            <Link
+                                href="https://malabonfinds.vercel.app/culture"
+                                target="_blank"
+                                onClick={() => setIsOpen(false)}
+                                className="flex items-center justify-between p-4 hover:bg-white/5 rounded-2xl transition-all group w-full"
+                            >
+                                <span className="text-lg font-medium group-hover:text-primary transition-colors text-primary italic font-black">Culture</span>
+                                <span className="text-muted-foreground text-sm">Traditions</span>
                             </Link>
 
                             <div className="h-px bg-white/10 my-2" />
 
                             <Link
-                                href="/foods"
+                                href="/explore"
                                 onClick={() => setIsOpen(false)}
                                 className="w-full py-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl font-bold text-center transition-all active:scale-95"
                             >
-                                Get Started
+                                Start Exploring
                             </Link>
                         </div>
                     </motion.div>

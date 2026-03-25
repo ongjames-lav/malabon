@@ -15,12 +15,12 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-    title: "Taste of Malabon - Food & Business Discovery Hub",
-    description: "Discover the culinary heritage and vibrant food scene of Malabon City. Explore famous foods, restaurants, cafés, and local delicacies with rich cultural stories.",
-    keywords: ["Malabon", "Filipino food", "Pancit Malabon", "restaurants", "food discovery", "cultural heritage"],
+    title: "Lakbay Malabon - Your AI Tourism Companion",
+    description: "Explore Malabon City with your smart AI companion Buddy. Discover hidden gems, authentic delicacies, and plan your perfect itinerary in the Venice of the North.",
+    keywords: ["Lakbay Malabon", "Malabon Tourism", "AI Travel Guide", "Pancit Malabon", "Itinerary Builder"],
     openGraph: {
-        title: "Taste of Malabon - Food & Business Discovery Hub",
-        description: "Discover the culinary heritage and vibrant food scene of Malabon City",
+        title: "Lakbay Malabon - AI Powered Tourism",
+        description: "Explore Malabon like a local with our AI-powered tourism platform.",
         type: "website",
     },
 };
@@ -37,7 +37,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={`${inter.variable} ${outfit.variable} font-sans antialiased overflow-x-hidden w-full bg-background text-foreground`}>
+            <body suppressHydrationWarning className={`${inter.variable} ${outfit.variable} font-sans antialiased overflow-x-hidden w-full bg-background text-foreground`}>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"

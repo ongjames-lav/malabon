@@ -42,25 +42,25 @@ export default function CommunityPage() {
                 speed={0.3}
             >
                 <div className="max-w-7xl mx-auto px-6 text-center">
-                    <TextReveal delay={0.2}>
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
-                            <MessageSquare className="w-4 h-4 text-accent" />
-                            <span className="text-sm font-medium text-muted-foreground">Stay Connected</span>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6 border border-primary/20">
+                            <Users className="w-4 h-4" />
+                            <span className="text-sm font-bold uppercase tracking-widest">Community Hub</span>
                         </div>
-                    </TextReveal>
+                    </motion.div>
 
-                    <TextReveal delay={0.4}>
-                        <h1 className="text-5xl md:text-7xl font-display font-bold mb-6">
-                            Community <span className="text-gradient">Updates</span>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+                        <h1 className="text-5xl md:text-8xl font-display font-black mb-6 uppercase tracking-tight">
+                            Lakbay <span className="text-primary italic">Voices</span>
                         </h1>
-                    </TextReveal>
+                    </motion.div>
 
-                    <TextReveal delay={0.6}>
-                        <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-                            Follow the latest news, announcements, and events from Malabon's leaders and institutions.
-                            Stay informed about what's happening in our community.
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+                        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                            Stay connected with the heart of Malabon. From official city updates to 
+                            local grassroots stories, this is where our community comes alive.
                         </p>
-                    </TextReveal>
+                    </motion.div>
                 </div>
             </ParallaxSection>
 
